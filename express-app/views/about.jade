@@ -5,9 +5,11 @@ html
     title About
     link(rel='stylesheet', href='/stylesheets/about.css')
   body
+  include includes/header
   #main-content
     h1 Search Me
     form(action="/search")
       input(type="text", name="terms")
       button(type="submit", name="submit")
         span Awesome
+  include includes/footer
