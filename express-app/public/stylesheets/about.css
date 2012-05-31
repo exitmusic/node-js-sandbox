@@ -1,13 +1,23 @@
 #main-content {
-    width: 960px;
+    width: 980px;
     margin: 0 auto;
 }
 h1 {
     text-align: center;
+    font-size: 68px;
 }
 form {
     text-align: center;
 }
 input {
-    width: 400px;
+    width: 600px;
+}
+.actions {
+    padding: 10px;
+}
+button {
+    margin: 0 10px;
+}
+.copy {
+    padding: 40px 0;
 }
