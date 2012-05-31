@@ -18,6 +18,10 @@ input {
 button {
     margin: 0 10px;
 }
+button span {
+    font-size: 11px;
+    font-weight: bold;
+}
 .copy {
     padding: 40px 0;
 }

@@ -8,7 +8,7 @@ a {
     color: #888; 
 }
 a:visited { 
-    color: #eee;
+    color: #888;
 }
 a:hover {
     color: #eee;
@@ -29,6 +29,7 @@ a:hover {
 #main-nav ul li a {
     display: block;
     padding: 5px 10px;
+    text-decoration: none;
 }
 #footer {
     min-width: 980px;
