@@ -13,7 +13,7 @@ exports.index = function(req, res){
 };
 
 exports.about = function(req, res) {
-	res.render('about', {layout: false, title: 'About'});
+	res.render('about', {title: 'About'});
 };
 
 exports.search = function(req, res) {
@@ -24,6 +24,6 @@ exports.search = function(req, res) {
 	query = "app";
 	exec("ls -l | grep -i " + query, function(err, stdout, stderr) {
 		content = stdout;
-		res.render('search', {layout: false, query: content});
+		res.render('search', {query: content});
 	});
 };

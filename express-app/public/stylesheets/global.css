@@ -1,6 +1,8 @@
-body, html {
+body {
     font-family: arial, sans-serif;
-    height: 100%; /*footer push*/
+}
+h1, h2, h3, h4, h5, ul, li, p {
+    margin: 0;
 }
 input {
     padding: 5px;
@@ -35,22 +37,14 @@ a:hover {
     padding: 5px 10px;
     text-decoration: none;
 }
-#main-content-wrap {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -200px;
-}
+#main-content-wrap {}
 #main-content {
     width: 980px;
     margin: 0 auto;
 }
 #footer {
     min-width: 980px;
-    background-color: #333;
-}
-#footer, #footer-push {
-    height: 200px;
+    background-color: #111;
 }
 #footer-nav {
     width: 980px;
