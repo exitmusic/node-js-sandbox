@@ -14,4 +14,4 @@ Helpful sites:
 * http://wellconsidered.be/post/10519707671/node-js-on-nginx
 
 Good reference on how to structure code:
-https://github.com/lethus/popbroker
+* https://github.com/lethus/popbroker
