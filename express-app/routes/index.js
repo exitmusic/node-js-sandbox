@@ -18,12 +18,11 @@ exports.about = function(req, res) {
 
 exports.search = function(req, res) {
 	// search code here?
-	var query = url.parse(req.url).query;
-	var content = "empty";
+	var query = url.parse(req.url, true).query;
+	var content = "";
 	
-	query = "app";
-	exec("ls -l | grep -i " + query, function(err, stdout, stderr) {
-		content = stdout;
+	exec("pwd; ls -l ~ | grep -i " + query.terms, function(err, stdout, stderr) {
+		content += stdout;
 		res.render('search', {query: content});
 	});
 };

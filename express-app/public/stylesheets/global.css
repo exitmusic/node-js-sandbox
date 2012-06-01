@@ -37,7 +37,9 @@ a:hover {
     padding: 5px 10px;
     text-decoration: none;
 }
-#main-content-wrap {}
+#main-content-wrap {
+    padding: 0 0 50px;
+}
 #main-content {
     width: 980px;
     margin: 0 auto;

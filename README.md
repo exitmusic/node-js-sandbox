@@ -9,5 +9,9 @@ Thanks to the following tutorials:
 
 Helpful sites:
 * http://nodejs.org/api/
+* https://github.com/joyent/node/wiki
 * http://expressjs.com/guide.html
 * http://wellconsidered.be/post/10519707671/node-js-on-nginx
+
+Good reference on how to structure code:
+https://github.com/lethus/popbroker
