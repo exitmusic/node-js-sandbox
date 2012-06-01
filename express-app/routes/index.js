@@ -21,7 +21,8 @@ exports.search = function(req, res) {
 	var query = url.parse(req.url).query;
 	var content = "empty";
 	
-	exec("ls -l", function(err, stdout, stderr) {
+	query = "app";
+	exec("ls -l | grep -i " + query, function(err, stdout, stderr) {
 		content = stdout;
 		res.render('search', {layout: false, query: content});
 	});

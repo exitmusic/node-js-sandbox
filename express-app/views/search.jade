@@ -7,8 +7,10 @@ html
     link(rel='stylesheet', href='/stylesheets/global.css')
     link(rel='stylesheet', href='/stylesheets/search.css')
   body
-  include includes/header
-  #main-content
-    pre
-      code= query
-  include includes/footer
+    include includes/header
+    #main-content-wrap
+      #main-content
+        pre
+          code= query
+      #footer-push
+    include includes/footer
