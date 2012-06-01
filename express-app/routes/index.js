@@ -1,8 +1,4 @@
-var fs = require("fs");
-var url = require("url");
-var query = require("querystring");
-var util = require("util");
-var exec = require("child_process").exec;
+var search = require('./../controllers/search');
 
 /*
  * GET home page.
@@ -17,12 +13,5 @@ exports.about = function(req, res) {
 };
 
 exports.search = function(req, res) {
-	// search code here?
-	var query = url.parse(req.url, true).query;
-	var content = "";
-	
-	exec("pwd; ls -l ~ | grep -i " + query.terms, function(err, stdout, stderr) {
-		content += stdout;
-		res.render('search', {query: content});
-	});
+	search.process(req, res);
 };

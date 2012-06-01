@@ -28,7 +28,7 @@ app.configure('production', function(){
 });
 
 // Routes
-
+// TODO Keep all routes here?
 app.get('/', routes.index);
 app.get('/about', routes.about);
 app.get('/search', routes.search);
