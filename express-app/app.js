@@ -4,7 +4,8 @@
  */
 
 var express = require('express')
-  , routes = require('./routes');
+  , routes = require('./routes')
+  , searchController = require('./app/controllers/search-controller');
 
 var app = module.exports = express.createServer();
 
@@ -31,8 +32,10 @@ app.configure('production', function(){
 // Routes
 // TODO Keep all routes here?
 app.get('/', routes.index);
-app.get('/search', routes.search);
 app.get('/template', routes.template);
+
+// Controllers
+searchController(app);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
