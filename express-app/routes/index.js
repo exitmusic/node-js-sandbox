@@ -1,4 +1,4 @@
-var search = require('./../controllers/search');
+var search = require('./../app/controllers/search');
 
 /*
  * GET home page.
