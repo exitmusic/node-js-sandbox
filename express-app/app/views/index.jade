@@ -1,6 +1,9 @@
-head
+extends templates/template
+
+block append css
   link(rel='stylesheet', href='/stylesheets/home.css')
-body
+
+block content
   h1 Internet
   form(action="/search")
     input(type="text", name="terms")

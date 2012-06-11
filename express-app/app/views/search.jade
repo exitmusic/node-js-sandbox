@@ -1,2 +1,8 @@
-pre
-  code= query
+extends templates/template
+
+block append css
+  link(rel='stylesheet', href='/stylesheets/search.css')
+
+block content
+  pre
+    code= query
