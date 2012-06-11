@@ -11,6 +11,7 @@ var app = module.exports = express.createServer();
 // Configuration
 
 app.configure(function(){
+	//app.set('view options', { layout: false });
   app.set('views', __dirname + '/app/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
@@ -30,8 +31,8 @@ app.configure('production', function(){
 // Routes
 // TODO Keep all routes here?
 app.get('/', routes.index);
-//app.get('/about', routes.about);
 app.get('/search', routes.search);
+app.get('/template', routes.template);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

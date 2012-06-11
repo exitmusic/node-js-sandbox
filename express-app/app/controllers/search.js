@@ -10,6 +10,6 @@ exports.process = function(req, res) {
 	
 	exec("pwd; ls -l ~ | grep -i " + query.terms, function(err, stdout, stderr) {
 		content += stdout;
-		res.render('search', {query: content, title: 'Search'});
+		res.render('search', {query: content, title: 'Search', page: 'search'});
 	});
 };

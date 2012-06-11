@@ -3,9 +3,10 @@ html
   head
     meta(charset="utf-8")
     title #{title}
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Inconsolata')
     link(rel='stylesheet', href='/stylesheets/reset.css')
     link(rel='stylesheet', href='/stylesheets/global.css')
-    link(rel='stylesheet', href='/stylesheets/about.css')
+    link(rel='stylesheet', href='/stylesheets/#{page}.css')
   body
     include includes/header
     #main-content-wrap
