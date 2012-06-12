@@ -3,7 +3,7 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', {title: 'Express', page:'home'});
+  res.render('index', {title: 'Express'});
 };
 
 //exports.search = function(req, res) {

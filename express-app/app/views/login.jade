@@ -1,0 +1,14 @@
+extends templates/template
+
+block append css
+  link(rel='stylesheet', href='/stylesheets/login.css')
+
+block content
+  h1 Login
+  form(action="/search")
+    input(type="text", name="terms")
+    .actions
+      button(type="submit", name="awesome")
+        span Awesome
+      button(type="submit", name="sweet")
+        span Sweet

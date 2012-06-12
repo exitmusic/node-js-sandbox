@@ -24,6 +24,11 @@ a:hover {
     min-width: 980px;
     background-color: black;
 }
+#auth {
+    position: absolute;
+    right: 10px;
+    padding: 10px 0;
+}
 #main-nav {
     color: #eee;
 }

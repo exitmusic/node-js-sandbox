@@ -4,8 +4,8 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , searchController = require('./app/controllers/search-controller');
+	, fs = require('fs')
+  , routes = require('./routes');
 
 var app = module.exports = express.createServer();
 
@@ -34,8 +34,12 @@ app.configure('production', function(){
 app.get('/', routes.index);
 app.get('/template', routes.template);
 
-// Controllers
-searchController(app);
+// Bootstrap controllers
+var controllers_path = __dirname + '/app/controllers'
+var controller_files = fs.readdirSync(controllers_path)
+controller_files.forEach(function(file){
+  require(controllers_path+'/'+file)(app)
+});
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
