@@ -4,11 +4,21 @@ block append css
   link(rel='stylesheet', href='/stylesheets/login.css')
 
 block content
-  h1 Login
-  form(action="/search")
-    input(type="text", name="terms")
-    .actions
-      button(type="submit", name="awesome")
-        span Awesome
-      button(type="submit", name="sweet")
-        span Sweet
+  h1 Log In
+  #login-wrap.clearfix
+    #login-info
+      p Information about logging in here.
+    #login
+      <h3>Log In</h3>
+      form(action="/loginUser")
+        .username
+          label(for="username") Username
+          input(id="username", type="text", name="username")
+        .password
+          label(for="password") Password
+          input(id="password", type="text", name="password")
+        .actions
+          button(type="submit", name="awesome")
+            span Log In
+
+

@@ -1,5 +1,6 @@
 body {
     font-family: 'Inconsolata', arial, sans-serif;
+    overflow-y: scroll;
 }
 h1, h2, h3, h4, h5, ul, li, p {
     margin: 0;
@@ -28,6 +29,15 @@ a:hover {
     position: absolute;
     right: 10px;
     padding: 10px 0;
+}
+#auth .actions a {
+    padding: 8px 10px;
+    border: 1px solid black;
+    color: white;
+    background-color: #777;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
 }
 #main-nav {
     color: #eee;
