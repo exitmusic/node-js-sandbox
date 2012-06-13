@@ -5,4 +5,6 @@ block append css
 
 block content
   each result in results
-    h2 #{result.path} #{result.filename} #{result.filetype}
+    //- h2 #{result.path} #{result.filename} #{result.ext}
+    h2 #{result}
+  audio(src="/sounds/dohaaa.wav", controls)

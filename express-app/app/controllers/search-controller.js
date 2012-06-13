@@ -10,7 +10,8 @@ function addRoutes(app) {
 		var query = url.parse(req.url, true).query;
 		var content = "";
 		
-		search.getResults(query.terms, req, res);
+		//search.getResults(query.terms, req, res);
+		search.getList('/com/home/users/kchang', req, res);
 	});
 }
 

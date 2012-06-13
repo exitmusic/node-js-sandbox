@@ -1,4 +1,5 @@
 var exec = require('child_process').exec;
+var fs = require('fs');
 var result = require('./result');
 
 function getResults(searchTerms, req, res) {
@@ -13,7 +14,7 @@ function getResults(searchTerms, req, res) {
 		filesArray = stdout.split("\n");
 		filesArray.forEach(function(element, index) {
 			if (element !== "") {
-				var oneResult = new result(element+"-path", element+"-filename", element+"-filetype");
+				var oneResult = new result(element+"-path", element+"-filename", element+"-ext");
 				results.push(oneResult);
 				//oneResult.someFunction(); // TODO: Remove
 			}
@@ -22,8 +23,10 @@ function getResults(searchTerms, req, res) {
 	});
 };
 
-function getList(path) {
-	
+function getList(path, req, res) {
+	fs.readdir(path, function(err, files) {
+		res.render('search', {results: files, title: 'Search'});
+	})
 };
 
 exports.getResults = getResults;

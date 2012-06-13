@@ -1,7 +1,7 @@
-function Result(path, filename, filetype) {
+function Result(path, filename, ext) {
 		this.path = path;
 		this.filename = filename;
-		this.filetype = filetype;
+		this.ext = ext;
 };
 
 Result.prototype.someFunction = function() {
