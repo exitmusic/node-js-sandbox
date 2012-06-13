@@ -4,4 +4,8 @@ function Result(path, filename, filetype) {
 		this.filetype = filetype;
 };
 
+Result.prototype.someFunction = function() {
+	console.log('test function');
+};
+
 module.exports = Result;
