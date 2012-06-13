@@ -4,5 +4,5 @@ block append css
   link(rel='stylesheet', href='/stylesheets/search.css')
 
 block content
-  pre
-    code!= query
+  each result in results
+    p #{result.path} #{result.filename} #{result.filetype}
