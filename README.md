@@ -16,3 +16,6 @@ Helpful sites:
 Good reference on how to structure code:
 * https://github.com/qed42/nodejs-express-mongoose-demo
 * https://github.com/lethus/popbroker
+
+Passport local example:
+* https://github.com/jaredhanson/passport-local/tree/master/examples/login

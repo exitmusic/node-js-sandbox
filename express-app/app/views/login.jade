@@ -9,16 +9,17 @@ block content
     #login-info
       p Information about logging in here.
     #login
-      <h3>Log In</h3>
-      form(action="/loginUser")
+      h3 Log In
+      h4 #{message}
+      form(action="/loginUser", method="post")
         .username
           label(for="username") Username
           input(id="username", type="text", name="username")
         .password
           label(for="password") Password
-          input(id="password", type="text", name="password")
+          input(id="password", type="password", name="password")
         .actions
-          button(type="submit", name="awesome")
+          button(type="submit")
             span Log In
 
 

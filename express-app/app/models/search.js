@@ -1,11 +1,11 @@
 var exec = require('child_process').exec;
 var fs = require('fs');
-var result = require('./result');
+var Result = require('./result');
 
 function getResults(searchTerms, req, res) {
 	var filesArray;
 	var searchPath;
-	var query = "ls -h ~ | grep -i " + searchTerms;
+	var query = "find ~ -name *" + searchTerms + "*";
 	var results = [];
 	
 	
@@ -14,7 +14,7 @@ function getResults(searchTerms, req, res) {
 		filesArray = stdout.split("\n");
 		filesArray.forEach(function(element, index) {
 			if (element !== "") {
-				var oneResult = new result(element+"-path", element+"-filename", element+"-ext");
+				var oneResult = new Result(element+"-path", element+"-filename", element+"-ext");
 				results.push(oneResult);
 				//oneResult.someFunction(); // TODO: Remove
 			}
