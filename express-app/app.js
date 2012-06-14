@@ -22,7 +22,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-	findById(id, function (err, user) {
+	user.findById(id, function (err, user) {
 		done(err, user);
 	});
 });
@@ -37,7 +37,7 @@ passport.use(new LocalStrategy(
 			if (!user) {
 				return done(null, false, {message: 'Unknown user'});
 			}
-			if (!user.validPassword(password)) {
+			if (user.password !== password) {
 				return done(null, false, {message: 'Invalid password'});
 			}
 			return done(null, user);
