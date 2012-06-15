@@ -1,4 +1,4 @@
-extends templates/template
+extends templates/standard
 
 block append css
   link(rel='stylesheet', href='/stylesheets/login.css')
@@ -8,9 +8,12 @@ block content
   #login-wrap.clearfix
     #login-info
       p Information about logging in here.
+      p Sed lectus augue, semper ac porta nec, sollicitudin at arcu. Etiam in risus ac quam egestas tempor. Curabitur eget commodo leo. Proin sollicitudin adipiscing felis in consequat. Cras ultricies mi mollis massa auctor tincidunt. Aliquam auctor laoreet erat at volutpat. Sed at tellus et nulla euismod lacinia. Phasellus faucibus neque nunc, vitae rhoncus purus. Nullam ut massa nulla, vitae aliquet urna.
+      p Nam sollicitudin, tellus id consequat vehicula, nisl metus rutrum erat, et hendrerit neque mi nec tortor. Ut tempor mollis leo, nec viverra ligula varius vel. Cras accumsan rutrum sodales. Aliquam semper orci nec nisl tincidunt luctus at in elit. Nullam semper ultricies nisi, in ullamcorper enim adipiscing eu. Suspendisse malesuada sem vitae purus pellentesque ac euismod dolor faucibus. Duis lacinia tristique metus et viverra. Integer vitae magna erat.
+      p Curabitur pretium, velit ut iaculis molestie, tortor dui eleifend lectus, sit amet venenatis metus justo vitae odio. Aenean arcu est, congue et consequat et, pellentesque interdum magna. Sed vitae viverra arcu. Proin imperdiet fringilla nulla, ac mollis mauris blandit sed. Nam eleifend fringilla consequat. Suspendisse elementum porttitor dolor, vitae bibendum nunc semper vel. Nunc neque felis, ultricies non ornare eget, sagittis ac ipsum. Aenean volutpat nibh eu eros pretium luctus. Pellentesque ac justo quam, sit amet tristique erat.
     #login
-      h3 Log In
-      h4 #{message}
+      h2 Log In
+      p.error #{message}
       form(action="/loginUser", method="post")
         .username
           label(for="username") Username
@@ -21,5 +24,4 @@ block content
         .actions
           button(type="submit")
             span Log In
-
 
