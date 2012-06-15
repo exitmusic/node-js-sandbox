@@ -4,9 +4,21 @@ body {
 }
 h1, h2, h3, h4, h5, ul, li, p {
     margin: 0;
+    font-weight: normal;
 }
 h1 {
+    font-size: 39px;
     padding: 4px 0 0;
+}
+label, input {
+    display: block;
+}
+label {
+    font-weight: bold;
+    font-size: 17px;
+}
+label:hover {
+    cursor: default;
 }
 input {
     padding: 5px;
@@ -23,6 +35,11 @@ a:visited {
 a:hover {
     color: #eee;
     cursor: pointer;
+}
+button span {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 5px;
 }
 .clearfix:after {
     visibility: hidden;
