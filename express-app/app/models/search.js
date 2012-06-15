@@ -19,7 +19,12 @@ function getResults(searchTerms, req, res) {
 				//oneResult.someFunction(); // TODO: Remove
 			}
 		});
-		res.render('search', {results: results, title: 'Search', req: req});
+		res.render('search', {
+			results: results, 
+			title: 'Search', 
+			isAuthenticated: req.isAuthenticated(),
+			user: req.user}
+		);
 	});
 };
 

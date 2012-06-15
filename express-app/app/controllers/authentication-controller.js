@@ -4,7 +4,12 @@ var passport = require('passport')
 
 function addRoutes(app) {
 	app.get('/login', function(req, res) {
-		res.render('login', {title: 'Login', message: req.flash('error'), req: req});
+		res.render('login', {
+			title: 'Login', 
+			message: req.flash('error'), 
+			isAuthenticated: req.isAuthenticated(),
+			user: req.user}
+		);
 	});
 	
 	app.post('/loginUser',

@@ -1,7 +1,8 @@
 #auth
   .actions
-    if (req.isAuthenticated())
-      a.logoff(href="/logout") Log Off
+    if (isAuthenticated)
+      span.welcome Welcome #{user.username}
+      a.logout(href="/logout") Log Out
     else
       a.login(href="/login") Log In
     

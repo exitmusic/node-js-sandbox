@@ -3,7 +3,10 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', {title: 'Express', req: req});
+  res.render('index', {
+  	title: 'Express', 
+  	isAuthenticated: req.isAuthenticated(),
+  	user: req.user});
 };
 
 //exports.search = function(req, res) {
