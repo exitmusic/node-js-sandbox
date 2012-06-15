@@ -1,3 +1,7 @@
 #auth
   .actions
-    a.login(href="/login") Sign In
+    if (req.isAuthenticated())
+      a.logoff(href="/logout") Log Off
+    else
+      a.login(href="/login") Log In
+    

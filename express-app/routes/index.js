@@ -3,13 +3,13 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', {title: 'Express'});
+  res.render('index', {title: 'Express', req: req});
 };
 
 //exports.search = function(req, res) {
 	//search.process(req, res);
 //};
 
-exports.template = function(req, res){
-  res.render('template-test', {layout: false, title: 'Template'});
-};
+//exports.template = function(req, res){
+  //res.render('template-test', {layout: false, title: 'Template'});
+//};
