@@ -67,20 +67,36 @@ button span {
 #header {
     position: fixed;
     width: 100%;
-    min-width: 980px;
     background-color: black;
     opacity: 0.85;
 }
+nav {
+    color: #eee;
+}
+#main-nav {
+    float: left;
+}
+#main-nav li {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+}
+#main-nav li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+}
 #auth {
     position: absolute;
-    right: 10px;
-    padding: 10px 0;
+    right: 0px;
+    font-size: 14px;
 }
 #auth span.welcome {
     padding: 0 20px;
+    font-weight: bold;
 }
 #auth .actions a {
-    padding: 5px 10px;
+    padding: 4px 10px;
     border: 1px solid black;
     color: white;
     background-color: #779773;
@@ -90,19 +106,6 @@ button span {
 }
 #auth .actions a.logout {
     background-color: #cc0000;
-}
-#main-nav {
-    color: #eee;
-}
-#main-nav ul li {
-    display: inline-block;
-    font-size: 14px;
-    font-weight: bold;
-}
-#main-nav ul li a {
-    display: block;
-    padding: 5px 10px;
-    text-decoration: none;
 }
 #main-content-wrap {
     padding: 20px 0 50px;
