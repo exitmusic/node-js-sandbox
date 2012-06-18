@@ -1,0 +1,14 @@
+audio {
+    width: 50%;
+    float: right;
+}
+#results-wrap {
+    padding: 10px 0 0;
+}
+.result {
+    padding: 10px 5px;
+    background-color: #ddd;
+}
+.result.odd {
+    background-color: #eee;
+}
