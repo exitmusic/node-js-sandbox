@@ -65,8 +65,11 @@ button span {
  * Header, Authorization, Footer Styles
  */
 #header {
+    position: fixed;
+    width: 100%;
     min-width: 980px;
     background-color: black;
+    opacity: 0.85;
 }
 #auth {
     position: absolute;
@@ -102,18 +105,18 @@ button span {
     text-decoration: none;
 }
 #main-content-wrap {
-    padding: 0 0 50px;
+    padding: 20px 0 50px;
 }
 #main-content {
-    width: 980px;
+    width: 95%;
     margin: 0 auto;
 }
 #footer {
-    min-width: 980px;
     background-color: #111;
 }
 #footer-nav {
-    width: 980px;
+    width: 95%;
+    min-width: 700px;
     margin: 0 auto;
     color: #eee;
 }
