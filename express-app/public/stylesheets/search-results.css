@@ -8,7 +8,11 @@ audio {
 .result {
     padding: 10px 10px;
     background-color: #ddd;
+    border: 1px solid white;
+    outline: 5px solid #ddd;
+    margin: 0 5px 15px;
 }
 .result.odd {
     background-color: #eee;
+    outline: 5px solid #eee;
 }
