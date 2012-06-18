@@ -72,6 +72,8 @@ button span {
 }
 nav {
     color: #eee;
+    width: 95%;
+    margin: 0 auto;
 }
 #main-nav {
     float: left;
@@ -80,15 +82,15 @@ nav {
     display: inline-block;
     font-size: 14px;
     font-weight: bold;
+    
 }
 #main-nav li a {
     display: block;
-    padding: 5px 10px;
     text-decoration: none;
+    padding: 5px 20px 5px 0;
 }
 #auth {
-    position: absolute;
-    right: 0px;
+    float: right;
     font-size: 14px;
 }
 #auth span.welcome {
@@ -99,13 +101,19 @@ nav {
     padding: 4px 10px;
     border: 1px solid black;
     color: white;
-    background-color: #779773;
+    background-color: #006600;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
 }
+#auth .actions a:hover {
+    background-color: #009900;
+}
 #auth .actions a.logout {
-    background-color: #cc0000;
+    background-color: #660000;
+}
+#auth .actions a.logout:hover {
+    background-color: #990000;
 }
 #main-content-wrap {
     padding: 20px 0 50px;

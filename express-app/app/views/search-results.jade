@@ -8,7 +8,8 @@ block content
   #results-wrap
     each result in results
       p #{result.path} 
-      p #{result.filename} 
-      p #{result.ext}
+      //- p #{result.filename} 
+      //- p #{result.ext}
       //- h2 #{result}
     audio(src="/sounds/dohaaa.wav", controls)
+      p Your browser doesn't support HTML5 audio
