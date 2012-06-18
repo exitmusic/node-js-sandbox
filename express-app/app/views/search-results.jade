@@ -8,8 +8,7 @@ block content
   #results-wrap
     each result, iter in results
       .result.clearfix(class="#{iter % 2 === 0 ? '' : 'odd'}")
-        p [#{result.path}] [#{result.filename}] [#{result.ext}]
+        h2 ##{iter + 1}
+        p [#{result.filename}]
         audio(src="/sounds/#{result.filename}", controls)
-    p Default wave file
-    audio(src="/sounds/dohaaa.wav", controls)
-      p Your browser doesn't support HTML5 audio
+          p Your browser doesn't support HTML5 audio

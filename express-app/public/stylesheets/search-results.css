@@ -6,7 +6,7 @@ audio {
     padding: 10px 0 0;
 }
 .result {
-    padding: 10px 5px;
+    padding: 10px 10px;
     background-color: #ddd;
 }
 .result.odd {
