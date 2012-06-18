@@ -7,9 +7,9 @@ block content
   h1 Search Results
   #results-wrap
     each result in results
-      p #{result.path} 
-      //- p #{result.filename} 
-      //- p #{result.ext}
+      p [#{result.path}] [#{result.filename}] [#{result.ext}]
+      audio(src="/sounds/#{result.filename}", controls)
       //- h2 #{result}
+    p Default wave file
     audio(src="/sounds/dohaaa.wav", controls)
       p Your browser doesn't support HTML5 audio

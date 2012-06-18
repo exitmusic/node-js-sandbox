@@ -5,7 +5,7 @@ var Result = require('./result');
 function getResults(searchTerms, req, res) {
 	var filesArray;
 	var searchPath;
-	var query = "find ~ -name *" + searchTerms + "*";
+	var query = "find ~ -name *" + searchTerms + "*.wav -printf '%p %f wav\n'";
 	var results = [];
 	
 	
@@ -14,7 +14,8 @@ function getResults(searchTerms, req, res) {
 		filesArray = stdout.split("\n");
 		filesArray.forEach(function(element, index) {
 			if (element !== "") {
-				var oneResult = new Result(element+"-path", element+"-filename", element+"-ext");
+				elementParsed = element.split(" ");
+				var oneResult = new Result(elementParsed[0], elementParsed[1], elementParsed[2]);
 				results.push(oneResult);
 				//oneResult.someFunction(); // TODO: Remove
 			}
