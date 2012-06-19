@@ -4,6 +4,9 @@ ul {
 audio {
     width: 100%;
 }
+a:hover {
+    color: #bbb;
+}
 #refine-search {
     padding: 10px 10px;
     color: white;

@@ -17,7 +17,7 @@ block content
         each result, iter in results
           li.result.clearfix(class="#{iter % 2 === 0 ? '' : 'odd'}")
             h2 ##{iter + 1}
-            p.filename [#{result.filename}]
+            p.filename #{result.path}
             .audio-file
               audio(src="/sounds/#{result.filename}", controls)
                 p Your browser doesn't support HTML5 audio
