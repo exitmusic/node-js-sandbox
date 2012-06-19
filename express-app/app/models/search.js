@@ -17,7 +17,6 @@ function getResults(searchTerms, req, res) {
 				elementParsed = element.split(" ");
 				var oneResult = new Result(elementParsed[0], elementParsed[1], elementParsed[2]);
 				results.push(oneResult);
-				//oneResult.someFunction(); // TODO: Remove
 			}
 		});
 		res.render('search-results', {

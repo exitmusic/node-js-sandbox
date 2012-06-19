@@ -1,6 +1,9 @@
-audio {
+.audio-file {
     width: 50%;
     float: right;
+}
+audio {
+    width: 100%;
 }
 #results-wrap {
     padding: 10px 0 0;
