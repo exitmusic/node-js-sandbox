@@ -14,7 +14,7 @@ $(document).ready(function() {
 	});
 	
 	$(window).scroll(function() {
-		if ($(window).scrollTop() > 53) {
+		if ($(window).scrollTop() > 55) {
 			$("#refine-search").addClass("fixed");
 			$("#refine-search").css("width", refineSearchBoxWidth+"px");
 		} else {
