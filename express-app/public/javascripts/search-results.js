@@ -16,9 +16,11 @@ $(document).ready(function() {
 	$(window).scroll(function() {
 		if ($(window).scrollTop() > 55) {
 			$("#refine-search").addClass("fixed");
+			$("#results").addClass("fixed");
 			$("#refine-search").css("width", refineSearchBoxWidth+"px");
 		} else {
 			$("#refine-search").removeClass("fixed");
+			$("#results").removeClass("fixed");
 		}
 	});
 });

@@ -1,6 +1,9 @@
 ul {
     list-style: none;
 }
+audio {
+    width: 100%;
+}
 #refine-search {
     padding: 10px 10px;
     color: white;
@@ -20,15 +23,12 @@ ul {
 #refine {
     width: 95%;
 }
-.audio-file {
-    width: 50%;
-    float: right;
-}
-audio {
-    width: 100%;
-}
+
 #results {
     padding: 10px 0 0;
+}
+#results.fixed {
+    padding: 95px 0 0;
 }
 .result {
     padding: 10px 10px;
@@ -40,4 +40,8 @@ audio {
 .result.odd {
     background-color: #eee;
     outline: 5px solid #eee;
+}
+.audio-file {
+    width: 50%;
+    float: right;
 }
