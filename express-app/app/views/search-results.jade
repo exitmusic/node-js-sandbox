@@ -10,15 +10,19 @@ block content
       label(for="refine") Filter Results
       input(id="refine", class="search", placeholder="Type to filter results")
     ul#results.list
-      each result, iter in results
-        li.result.clearfix(class="#{iter % 2 === 0 ? '' : 'odd'}")
-          h2 ##{iter + 1}
-          p.filename [#{result.filename}]
-          .audio-file
-            audio(src="/sounds/#{result.filename}", controls)
-              p Your browser doesn't support HTML5 audio
-            p
-              a(href="/sounds/#{result.filename}") #{result.filename}
+      if (results.length === 0)
+        li.result.clearfix
+          p.filename No files found
+      else
+        each result, iter in results
+          li.result.clearfix(class="#{iter % 2 === 0 ? '' : 'odd'}")
+            h2 ##{iter + 1}
+            p.filename [#{result.filename}]
+            .audio-file
+              audio(src="/sounds/#{result.filename}", controls)
+                p Your browser doesn't support HTML5 audio
+              p
+                a(href="/sounds/#{result.filename}") #{result.filename}
 
 block append script
   script(src="/javascripts/lib/list.min.js")
