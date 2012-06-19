@@ -107,6 +107,7 @@ nav {
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
+    border: 1px solid black;
 }
 #auth .actions a:hover {
     background-color: #009900;
