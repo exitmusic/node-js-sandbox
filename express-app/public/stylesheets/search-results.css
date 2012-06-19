@@ -44,6 +44,11 @@ a:hover {
     background-color: #eee;
     outline: 5px solid #eee;
 }
+p.filename {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .audio-file {
     width: 50%;
     float: right;
