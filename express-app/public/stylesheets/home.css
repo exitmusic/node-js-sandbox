@@ -1,9 +1,17 @@
 input {
-    width: 50%;
+    width: 95%;
 }
 #search-wrap {
     margin: 0;
     padding: 20px 0 0;
+}
+#search-box {
+    padding: 10px 10px;
+    color: white;
+    background-color: #555;
+    border: 1px solid white;
+    outline: 5px solid #555;
+    margin: 10px 5px 15px;
 }
 .search-actions {
     padding: 20px 0 0;

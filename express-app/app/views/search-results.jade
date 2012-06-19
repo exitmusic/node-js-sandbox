@@ -5,13 +5,21 @@ block append css
 
 block content
   h1 Search Results
-  #results-wrap
-    each result, iter in results
-      .result.clearfix(class="#{iter % 2 === 0 ? '' : 'odd'}")
-        h2 ##{iter + 1}
-        p [#{result.filename}]
-        .audio-file
-          audio(src="/sounds/#{result.filename}", controls)
-            p Your browser doesn't support HTML5 audio
-          p
-            a(href="/sounds/#{result.filename}") #{result.filename}
+  #results-list
+    #refine-search
+      label(for="refine") Refine Results
+      input(id="refine", class="search", placeholder="Type to search results")
+    ul#results.list
+      each result, iter in results
+        li.result.clearfix(class="#{iter % 2 === 0 ? '' : 'odd'}")
+          h2 ##{iter + 1}
+          p.filename [#{result.filename}]
+          .audio-file
+            audio(src="/sounds/#{result.filename}", controls)
+              p Your browser doesn't support HTML5 audio
+            p
+              a(href="/sounds/#{result.filename}") #{result.filename}
+
+block append script
+  script(src="/javascripts/lib/list.min.js")
+  script(src="/javascripts/search-results.js")

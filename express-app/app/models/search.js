@@ -5,7 +5,7 @@ var Result = require('./result');
 function getResults(searchTerms, req, res) {
 	var filesArray;
 	var searchPath = "~";
-	var query = "find " + searchPath + " -name *" + searchTerms + "*.wav -printf '%p %f wav\n'";
+	var query = "find " + searchPath + " -iname *" + searchTerms + "*.wav -printf '%p %f wav\n'";
 	var results = [];
 	
 	

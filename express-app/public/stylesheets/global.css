@@ -27,7 +27,8 @@ label:hover {
     cursor: default;
 }
 input {
-    padding: 5px;
+    padding: 6px 5px 5px;
+    border: 2px solid black;
 }
 pre {
     margin: 0;
