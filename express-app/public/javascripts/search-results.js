@@ -10,16 +10,16 @@ $(document).ready(function() {
 	
 	$(window).resize(function() {
 		refineSearchBoxWidth = $("#results-list").width()-32;
-		$("#refine-search").css("width", refineSearchBoxWidth+"px");
+		$("#filter-search").css("width", refineSearchBoxWidth+"px");
 	});
 	
 	$(window).scroll(function() {
-		if ($(window).scrollTop() > 55) {
-			$("#refine-search").addClass("fixed");
+		if ($(window).scrollTop() > 52) {
+			$("#filter-search").addClass("fixed");
 			$("#results").addClass("fixed");
-			$("#refine-search").css("width", refineSearchBoxWidth+"px");
+			$("#filter-search").css("width", refineSearchBoxWidth+"px");
 		} else {
-			$("#refine-search").removeClass("fixed");
+			$("#filter-search").removeClass("fixed");
 			$("#results").removeClass("fixed");
 		}
 	});

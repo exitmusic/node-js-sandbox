@@ -6,9 +6,9 @@ block append css
 block content
   h1 Search Results
   #results-list
-    #refine-search
-      label(for="refine") Filter Results
-      input(id="refine", class="search", placeholder="Type to filter results")
+    #filter-search
+      label(for="filter") Filter Results
+      input(id="filter", class="search", placeholder="Type to filter results")
     ul#results.list
       if (results.length === 0)
         li.result.clearfix
