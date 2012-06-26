@@ -21,4 +21,9 @@ button {
 }
 .copy {
     padding: 40px 0;
+    font-size: 22px;
+}
+.copy p {
+    font-size: 22px;
+    border-bottom: 2px solid black;
 }
