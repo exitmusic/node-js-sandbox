@@ -1,7 +1,7 @@
 
 function routes(app) {
 	app.get('/', function(req, res) {
-	  res.render('index', {
+	  res.render('home', {
 	  	title: 'Audio Search', 
 	  	isAuthenticated: req.isAuthenticated(),
 	  	user: req.user});

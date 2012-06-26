@@ -16,6 +16,9 @@ h1 {
     border-bottom: 4px solid black;
     line-height: 1.2;
 }
+ul {
+    list-style: none;
+}
 label, input {
     display: block;
 }

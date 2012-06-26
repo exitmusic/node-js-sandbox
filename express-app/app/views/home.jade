@@ -1,0 +1,24 @@
+extends templates/standard
+
+block append css
+  link(rel='stylesheet', href='/css/home.css')
+
+block content
+  h1 Generic Company Audio
+  #search-wrap.clearfix
+    #search-box
+      form(action="/search")
+        label(for="search") Search
+        input(id="search", type="text", name="terms")
+        .search-actions
+          button(type="submit", name="awesome")
+            span Awesome
+          button(type="submit", name="sweet")
+            span Sweet
+    .copy
+      p Search instructions here.
+      ul How to search:
+        li Campaign
+        li Date
+        li Telephone Number
+        li Agent Name
