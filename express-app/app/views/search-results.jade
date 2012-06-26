@@ -19,10 +19,10 @@ block content
             h2 ##{iter + 1}
             p.filename #{result.path}
             .audio-file
-              audio(src="/sounds/#{result.filename}", controls)
+              audio(src="/media/#{result.filename}", controls)
                 p Your browser doesn't support HTML5 audio
               p
-                a(href="/sounds/#{result.filename}") #{result.filename}
+                a(href="/media/#{result.filename}") #{result.filename}
 
 block append script
   script(src="/js/lib/list.min.js")
