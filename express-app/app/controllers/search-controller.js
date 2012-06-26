@@ -5,7 +5,7 @@ var exec = require('child_process').exec;
 var search = require('./../models/search');
 var auth = require('./../models/authentication');
 
-function addRoutes(app) {
+function routes(app) {
 	app.get('/search', auth.ensureAuthenticated, function(req, res) {
 		// search code here?
 		var query = url.parse(req.url, true).query;
@@ -16,4 +16,4 @@ function addRoutes(app) {
 	});
 }
 
-module.exports = addRoutes;
+module.exports = routes;

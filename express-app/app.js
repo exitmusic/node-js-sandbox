@@ -69,9 +69,7 @@ app.configure('production', function(){
 });
 
 // Routes
-// TODO Keep all routes here?
-app.get('/', routes.index);
-app.get('/template', routes.template);
+// Moved all routes to /controllers
 
 // Bootstrap controllers
 var controllers_path = __dirname + '/app/controllers'

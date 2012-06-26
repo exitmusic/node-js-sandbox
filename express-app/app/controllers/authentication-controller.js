@@ -2,7 +2,7 @@ var passport = require('passport')
 	, LocalStrategy = require('passport-local').Strategy
 	, User = require('./../models/user');
 
-function addRoutes(app) {
+function routes(app) {
 	app.get('/login', function(req, res) {
 		res.render('login', {
 			title: 'Login', 
@@ -25,4 +25,4 @@ function addRoutes(app) {
 	})
 }
 
-module.exports = addRoutes;
+module.exports = routes;
