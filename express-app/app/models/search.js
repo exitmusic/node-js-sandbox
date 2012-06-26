@@ -12,8 +12,10 @@ function getResults(searchTerms, req, res) {
 	var results = [];
 
 	// TODO: Create a static file containing a directory listing the first time. Use grep to search.
-	//var queryOut = "find " + searchPath + " -printf '%p||%f||wav\n' > /tmp/query-find.log";
-	//exec (queryOut, function(err, stdout, stderr) {});
+	/*var queryAll = "find " + SEARCH_PATH + " " + REG_EX_IGNORE_HIDDEN + " -type f -printf '%p||%f||wav\n'";
+	exec (queryAll, function(err, stdout, stderr) {
+		fs.writeFile('/tmp/query-find.log', stdout, function(err) {});
+	});*/
 	
 	// TODO: This can probably be replaced by existing functions in the File System module
 	exec(query, function(err, stdout, stderr) {
