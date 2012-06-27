@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-	, fs = require('fs')
+  , fs = require('fs')
   , routes = require('./routes')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
@@ -18,30 +18,32 @@ var app = module.exports = express.createServer();
 //	this will be as simple as storing the user ID when serializing, and finding
 //	the user by ID when deserializing.
 passport.serializeUser(function(user, done) {
-	done(null, user.id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-	user.findById(id, function (err, user) {
-		done(err, user);
-	});
+  user.findById(id, function (err, user) {
+    done(err, user);
+  });
 });
 
-passport.use(new LocalStrategy(
-	function(username, password, done) {
-		user.findByUsername(username, function (err, user) {
-			if (err) {
-				return done(err);
-			}
-			if (!user) {
-				return done(null, false, {message: 'Unknown user'});
-			}
-			if (user.password !== password) {
-				return done(null, false, {message: 'Invalid password'});
-			}
-			return done(null, user);
-		});
-	})
+passport.use(
+  new LocalStrategy(
+    function(username, password, done) {
+      user.findByUsername(username, function (err, user) {
+        if (err) {
+          return done(err);
+        }
+        if (!user) {
+          return done(null, false, {message: 'Unknown user'});
+        }
+        if (user.password !== password) {
+          return done(null, false, {message: 'Invalid password'});
+        }
+        return done(null, user);
+      });
+    }
+  )
 );
 
 // Configuration
