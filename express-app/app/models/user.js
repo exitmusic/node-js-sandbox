@@ -1,6 +1,16 @@
 var users = [
-  { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
-, { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com' }
+  {id: 1
+    , username: 'bob'
+    , password: 'secret'
+    , email: 'bob@example.com'
+    , directories: ['repos', 'tools']
+  }
+, {id: 2
+  , username: 'joe'
+  , password: 'birthday'
+  , email: 'joe@example.com'
+  , directories: ['tools']
+  }
 ];
 
 function findByUsername(username, fn) {
