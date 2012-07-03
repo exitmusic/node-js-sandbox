@@ -6,16 +6,16 @@ var exec = require('child_process').exec
   , Result = require('./result');
 
 function Search(searchTerms) {
-  this.searchTerms = searchTerms; //TODO(kchang): For now assume array positions
-  this.campaign = ""; //TODO(kchang): Call smart function to determine campaign from search terms
-  this.date = ""; //TODO(kchang): Call smart function to determine date from search terms
-  this.telephone = ""; //TODO(kchang): Call smart function to determine telephone from search terms
-  this.agent = ""; //TODO(kchang): Call smart function to determine agent from search terms
+  this.searchTerms = searchTerms; //TODO: For now assume array positions
+  this.campaign = ""; //TODO: Call smart function to determine campaign from search terms?
+  this.date = ""; //TODO: Call smart function to determine date from search terms?
+  this.telephone = ""; //TODO: Call smart function to determine telephone from search terms?
+  this.agent = ""; //TODO: Call smart function to determine agent from search terms?
 }
 /**
  * Gets results from the file system
  * @method getResults
- * @param {Array} searchTerms Array containing search terms // TODO(kchang): Remove this
+ * @param {Array} searchTerms Array containing search terms // TODO: Remove this
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerREsponse} res Instance of Node's HTTP server response class
  * @param {Function} cb Callback function to render the view
@@ -30,7 +30,7 @@ Search.prototype.getResults = function(req, res, viewCallback) {
     , validPaths = []
     , searchTerms = this.searchTerms
     , results = []
-    , query
+    , findQuery
     , queries = [];
   
   req.user.directories.forEach(function(directory, index) {
@@ -38,24 +38,25 @@ Search.prototype.getResults = function(req, res, viewCallback) {
       + "/"
       + directory;
     validPaths.push(path);
-  }) 
+  });
   
   // Search available directories for campaigns
-  //TODO(kchang): Code here
+  //TODO: Code here
   
   // Search agent, telephone, date
   searchTerms.forEach(function(searchTerm, index) {
-    query = "find "
-      + validPaths[0] //TODO(kchang): Loop through all paths and create separate queries?
+    findQuery = "find "
+      + validPaths[0] //TODO: Loop through all paths and create separate queries?
       + " "
       + REGEX_IGNORE_HIDDEN
       + " -type f -iname '*"
-      + searchTerm //TODO(kchang): Better solution
+      + searchTerm //TODO: Better solution
       + "*' -printf "
       + PRINT_FORMAT;
-    queries.push(query);
+    queries.push(findQuery);
   });
   
+  //TODO: Delete this
   /*async.parallel([
     function(callback) {
       queries.forEach(function(query) {
@@ -84,11 +85,13 @@ Search.prototype.getResults = function(req, res, viewCallback) {
     cb(resultsx, searchTerms, req, res);
   });*/
   
+  //TODO: Move declarations up when done testing
+  var filesArray
+    , elementParsed
+    , oneResult;
   async.forEachSeries(queries, function(query, callback) {
     exec(query, function(err, stdout, stderr) {
-      var filesArray
-        , elementParsed
-        , oneResult;
+
       
       filesArray = stdout.split("\n");
       filesArray.forEach(function(element, index) {
@@ -104,30 +107,8 @@ Search.prototype.getResults = function(req, res, viewCallback) {
   }, function(err) {
     viewCallback(results, searchTerms, req, res); // calls the view
   });
-
-  // TODO: Testing solution, revisit this
-  /*searchTerms.forEach(function(element, index) {
-    query = "find " 
-      + LOCAL_SEARCH_PATH 
-      + " " 
-      + REGEX_IGNORE_HIDDEN 
-      + " -type f -iname '*" 
-      + searchTerms 
-      + "*' -printf " 
-      + PRINT_FORMAT;
-  });*/
-
-  // TODO: Create a static file containing a directory listing the first time. Use grep to search.
-  //getList(SEARCH_PATH, REGEX_IGNORE_HIDDEN);
-  //list = fs.readFileSync('/tmp/query-find.log');
-  //campaigns = getCampaigns();
+  // TODO: Create a static file containing a directory listing the first time? Use grep to search?
 };
-
-
-//TODO: Needed?
-function runQuery(query, cb) {
-  exec(query, cb(err, stdout, stderr));
-}
 
 function getCampaigns() {
   var CAMPAIGN_PATH = "~"
@@ -148,7 +129,7 @@ function getList(searchPath, regEx) {
   exec(queryAll, function(err, stdout, stderr) {
     fs.writeFile('/tmp/query-find.log', stdout, function(err) {});
   });
-};
+}
 
 //exports.getResults = getResults;
 //exports.getList = getList;

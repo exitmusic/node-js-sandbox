@@ -74,10 +74,10 @@ app.configure('production', function(){
 // Moved all routes to /controllers
 
 // Bootstrap controllers
-var controllers_path = __dirname + '/app/controllers'
-var controller_files = fs.readdirSync(controllers_path)
+var controllers_path = __dirname + '/app/controllers';
+var controller_files = fs.readdirSync(controllers_path);
 controller_files.forEach(function(file){
-  require(controllers_path+'/'+file)(app)
+  require(controllers_path+'/'+file)(app);
 });
 
 app.listen(3000, function(){

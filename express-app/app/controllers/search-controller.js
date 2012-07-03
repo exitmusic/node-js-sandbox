@@ -8,15 +8,15 @@ var fs = require('fs')
   , Result = require('./../models/result');
 
 function routes(app) {
-	app.get('/search', auth.ensureAuthenticated, function(req, res) {
-		var queryUrl
-		  , searchTerms = []
-		  , audioSearch;
+  app.get('/search', auth.ensureAuthenticated, function(req, res) {
+    var queryUrl
+      , searchTerms = []
+      , audioSearch;
 		
-	  queryUrl = url.parse(req.url, true).query;
-	  searchTerms = queryUrl.terms.split(" ");
-	  audioSearch = new Search(searchTerms);
-	  audioSearch.getResults(req, res, renderSearchResults);
+		queryUrl = url.parse(req.url, true).query;
+		searchTerms = queryUrl.terms.split(" ");
+		audioSearch = new Search(searchTerms);
+		audioSearch.getResults(req, res, renderSearchResults);
 	});
 }
 

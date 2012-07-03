@@ -2,7 +2,7 @@ function Result(path, filename, ext) {
   this.path = path;
   this.filename = filename;
   this.ext = ext;
-};
+}
 /*
 function Result(searchTerm, resultsArray, resultsRaw) {
   this.searchTerm = searchTerm;
@@ -15,8 +15,8 @@ Result.prototype.someFunction = function() {
   console.log('test function');
 };
 
-function getResultsArray() {};
+function getResultsArray() {}
 
-function getResultsRaw() {};
+function getResultsRaw() {}
 
 module.exports = Result;
