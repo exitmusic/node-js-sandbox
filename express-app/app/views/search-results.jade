@@ -4,12 +4,16 @@ block append css
   link(rel='stylesheet', href='/css/search-results.css')
 
 block content
-  h1 Search Results
   #results-list
     #filter-search
-      label(for="filter") Filter Results:
+      h1 Search Results for
+        "
         each term, iter in searchTerms
-          span  #{term}
+          if iter === 0
+            span #{term}
+          else
+            span  #{term}
+        "
       input(id="filter", class="search", placeholder="Type to filter results")
     ul#results.list
       if (results.length === 0)

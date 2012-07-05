@@ -6,16 +6,16 @@ var exec = require('child_process').exec
   , Result = require('./result');
 
 function Search(searchTerms) {
-  this.searchTerms = searchTerms; //TODO: For now assume array positions
-  this.campaign = ""; //TODO: Call smart function to determine campaign from search terms?
-  this.date = ""; //TODO: Call smart function to determine date from search terms?
-  this.telephone = ""; //TODO: Call smart function to determine telephone from search terms?
-  this.agent = ""; //TODO: Call smart function to determine agent from search terms?
+  this.searchTerms = searchTerms; //TODO(kchang): For now assume array positions
+  this.campaign = ""; //TODO(kchang): Call smart function to determine campaign from search terms?
+  this.date = ""; //TODO(kchang): Call smart function to determine date from search terms?
+  this.telephone = ""; //TODO(kchang): Call smart function to determine telephone from search terms?
+  this.agent = ""; //TODO(kchang): Call smart function to determine agent from search terms?
 }
 /**
  * Gets results from the file system
  * @method getResults
- * @param {Array} searchTerms Array containing search terms // TODO: Remove this
+ * @param {Array} searchTerms Array containing search terms // TODO(kchang): Remove this
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerREsponse} res Instance of Node's HTTP server response class
  * @param {Function} cb Callback function to render the view
@@ -33,6 +33,7 @@ Search.prototype.getResults = function(req, res, viewCallback) {
     , findQuery
     , queries = [];
   
+  //TODO(kchang): May need to use wildcards based on directory name structure
   req.user.directories.forEach(function(directory, index) {
     path = LOCAL_SEARCH_PATH
       + "/"
@@ -41,61 +42,32 @@ Search.prototype.getResults = function(req, res, viewCallback) {
   });
   
   // Search available directories for campaigns
-  //TODO: Code here
+  //TODO(kchang): Code here
   
   // Search agent, telephone, date
-  searchTerms.forEach(function(searchTerm, index) {
-    findQuery = "find "
-      + validPaths[0] //TODO: Loop through all paths and create separate queries?
-      + " "
-      + REGEX_IGNORE_HIDDEN
-      + " -type f -iname '*"
-      + searchTerm //TODO: Better solution
-      + "*' -printf "
-      + PRINT_FORMAT;
-    queries.push(findQuery);
+  //TODO(kchang): Nested loop, potential to be very slow
+  validPaths.forEach(function(path, index) {
+    searchTerms.forEach(function(searchTerm, index) {
+      findQuery = "find "
+        + path //TODO(kchang): Loop through all paths and create separate queries?
+        + " "
+        + REGEX_IGNORE_HIDDEN
+        + " -type f -iname '*"
+        + searchTerm //TODO(kchang): Better solution
+        + "*' -printf "
+        + PRINT_FORMAT;
+      queries.push(findQuery);
+    });
   });
   
-  //TODO: Delete this
-  /*async.parallel([
-    function(callback) {
-      queries.forEach(function(query) {
-        exec(query, function(err, stdout, stderr) {
-          var filesArray
-            , elementParsed
-            , oneResult;
-          
-          filesArray = stdout.split("\n");
-          filesArray.forEach(function(element, index) {
-            if (element !== "") {
-              elementParsed = element.split("||"),
-              oneResult = new Result(elementParsed[0], elementParsed[1], elementParsed[2]);
-              results.push(oneResult);
-            }
-          });
-          callback(null, results);
-        });
-        
-      });
-    }
-  ],
-  function(err, resultsx) {
-    console.log(results);
-    console.log(resultsx);
-    cb(resultsx, searchTerms, req, res);
-  });*/
-  
-  //TODO: Move declarations up when done testing
+  //TODO(kchang): Move declarations up when done testing
   var filesArray
     , elementParsed
     , oneResult;
   async.forEachSeries(queries, function(query, callback) {
     exec(query, function(err, stdout, stderr) {
-
-      
       filesArray = stdout.split("\n");
       filesArray.forEach(function(element, index) {
-        console.log(2);
         if (element !== "") {
           elementParsed = element.split("||"),
           oneResult = new Result(elementParsed[0], elementParsed[1], elementParsed[2]);

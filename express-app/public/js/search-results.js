@@ -8,16 +8,16 @@ var resultsList = new List('results-list', options);
 $(document).ready(function() {
   var initialWindow = $(window)
     , filterSearch = $("#filter-search")
-    , filterSearchBoxWidth = $("#results-list").width()-32
+    , filterSearchBoxWidth = $("#results-list").width()
     , results = $("#results");
   
   initialWindow.resize(function() {
-    filterSearchBoxWidth = $("#results-list").width()-32;
+    filterSearchBoxWidth = $("#results-list").width();
     filterSearch.css("width", filterSearchBoxWidth+"px");
   });
 
   initialWindow.scroll(function() {
-    if ($(window).scrollTop() > 52) { // Need to get the latest window object
+    if ($(window).scrollTop() > 20) { // Need to get the latest window object
       filterSearch.addClass("fixed");
       results.addClass("fixed");
       filterSearch.css("width", filterSearchBoxWidth+"px");

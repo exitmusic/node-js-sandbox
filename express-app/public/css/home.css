@@ -1,17 +1,18 @@
+label {
+    font-size: 30px;
+    letter-spacing: 20px;
+}
 input {
-    width: 95%;
+    display: inline;
+    width: 75%;
 }
 #search-wrap {
     margin: 0;
     padding: 40px 0 0;
 }
 #search-box {
-    padding: 10px 10px;
-    color: white;
-    background-color: #555;
-    border: 1px solid white;
-    outline: 5px solid #555;
-    margin: 10px 5px 15px;
+    text-align: center;
+    padding: 50px 0 80px;
 }
 .search-actions {
     padding: 20px 0 0;
@@ -20,10 +21,18 @@ button {
     margin: 0 10px 0 0;
 }
 .copy {
-    padding: 40px 0;
-    font-size: 22px;
+    padding: 40px;
+    font-size: 17px;
+    color: white;
+    background-color: #555;
+    border: 1px solid white;
+    outline: 20px solid #555;
 }
 .copy p {
     font-size: 22px;
-    border-bottom: 2px solid black;
+    border-bottom: 5px solid #ff6600;
+}
+.copy li,
+.copy p {
+    text-align: center;
 }

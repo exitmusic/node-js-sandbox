@@ -1,7 +1,6 @@
 var fs = require('fs')
   , url = require('url')
-  //, query = require('querystring')
-  //, exec = require('child_process').exec
+  , _ = require('underscore')
   , auth = require('./../models/authentication')
   , exec = require('child_process').exec
   , Search = require('./../models/search')
@@ -13,10 +12,11 @@ function routes(app) {
       , searchTerms = []
       , audioSearch;
 		
-		queryUrl = url.parse(req.url, true).query;
-		searchTerms = queryUrl.terms.split(" ");
-		audioSearch = new Search(searchTerms);
-		audioSearch.getResults(req, res, renderSearchResults);
+    queryUrl = url.parse(req.url, true).query;
+    searchTerms = queryUrl.terms.trim().split(" ");
+    searchTerms = _.without(searchTerms, "");
+    audioSearch = new Search(searchTerms);
+    audioSearch.getResults(req, res, renderSearchResults);
 	});
 }
 

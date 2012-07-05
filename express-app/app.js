@@ -5,7 +5,7 @@
 
 var express = require('express')
   , fs = require('fs')
-  , routes = require('./routes')
+  , less = require('less')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , user = require('./app/models/user');
@@ -70,13 +70,28 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+// Compile less
+//TODO(kchang): Test using async and sync versions of the read/write commands
+var less_path = __dirname + '/public/less';
+var css_path = __dirname + '/public/css/';
+var file_path;
+var file_contents;
+var less_files = fs.readdirSync(less_path);
+less_files.forEach(function(file) {
+  file_path = less_path + '/' + file;
+  less.render(fs.readFileSync(file_path, 'utf-8'), function(e, css) {
+    //console.log(css_path+file.split('.')[0] + '.css');
+    fs.writeFile(css_path + file.split('.')[0] + '.css', css);
+  });
+});
+
 // Routes
 // Moved all routes to /controllers
 
 // Bootstrap controllers
 var controllers_path = __dirname + '/app/controllers';
 var controller_files = fs.readdirSync(controllers_path);
-controller_files.forEach(function(file){
+controller_files.forEach(function(file) {
   require(controllers_path+'/'+file)(app);
 });
 
