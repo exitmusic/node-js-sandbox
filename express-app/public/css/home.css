@@ -1,6 +1,6 @@
 label{font-size:30px;letter-spacing:20px;}
 input{display:inline;width:75%;}
-#search-box{text-align:center;padding:50px 0 80px;}
+#search-box{text-align:center;padding:100px 0;}
 .search-actions{padding:20px 0 0;}
 button{margin:0 10px 0 0;}
 .directions{padding:40px;font-size:17px;color:white;background-color:#555;border:1px solid white;outline:20px solid #555;}.directions p{font-size:22px;border-bottom:5px solid #CD3700;}
