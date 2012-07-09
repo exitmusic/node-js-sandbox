@@ -6,6 +6,7 @@
 var express = require('express')
   , fs = require('fs')
   , less = require('less')
+  , lessMiddleware = require('less-middleware')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , user = require('./app/models/user');
@@ -47,8 +48,7 @@ passport.use(
 );
 
 // Configuration
-
-app.configure(function(){
+app.configure(function() {
 	app.set('view options', { layout: false });
   app.set('views', __dirname + '/app/views');
   app.set('view engine', 'jade');
@@ -59,30 +59,17 @@ app.configure(function(){
   app.use(passport.initialize()); // added for passport
   app.use(passport.session()); // added for passport
   //app.use(app.router);
+  app.use(lessMiddleware({src: __dirname + '/public', compress: true}));
   app.use(express.static(__dirname + '/public'));  
+  app.use(express.static('/')); //TODO(kchang): This gives access to root directory
 });
 
-app.configure('development', function(){
+app.configure('development', function() {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
-app.configure('production', function(){
+app.configure('production', function() {
   app.use(express.errorHandler());
-});
-
-// Compile less
-//TODO(kchang): Test using async and sync versions of the read/write commands
-var less_path = __dirname + '/public/less';
-var css_path = __dirname + '/public/css/';
-var file_path;
-var file_contents;
-var less_files = fs.readdirSync(less_path);
-less_files.forEach(function(file) {
-  file_path = less_path + '/' + file;
-  less.render(fs.readFileSync(file_path, 'utf-8'), function(e, css) {
-    //console.log(css_path+file.split('.')[0] + '.css');
-    fs.writeFile(css_path + file.split('.')[0] + '.css', css);
-  });
 });
 
 // Routes

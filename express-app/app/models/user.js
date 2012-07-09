@@ -1,13 +1,18 @@
+//TODO(kchang): Create constructor
 var users = [
   {id: 1
     , username: 'bob'
     , password: 'secret'
+    , firstName: 'Bob'
+    , lastName: 'Bob'
     , email: 'bob@example.com'
     , directories: ['repos', 'tools']
   }
 , {id: 2
   , username: 'joe'
   , password: 'birthday'
+  , firstName: 'Joe'
+  , lastName: 'Joe'
   , email: 'joe@example.com'
   , directories: ['tools']
   }

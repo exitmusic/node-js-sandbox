@@ -1,6 +1,17 @@
-#header.clearfix
-  nav
-    ul#main-nav
-      li.home 
-        a(href="/") Search
-    include auth
+#header.navbar.navbar-fixed-top
+  .navbar-inner
+    .container-fluid
+      a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.brand(href="/") Audio Search
+      include auth
+      .nav-collapse.collapse
+        ul#main-nav.nav
+          li.home 
+            a(href="/") Home
+          li
+            a(href="#about") About
+          li
+            a(href="#contact") Contact

@@ -1,8 +1,12 @@
-#auth
-  .actions
-    if (isAuthenticated)
-      span.welcome Welcome #{user.username}
-      a.logout(href="/logout") Log Out
-    else
-      a.login(href="/login") Log In
+#auth.btn-group.pull-right
+  if (isAuthenticated)
+    a.btn.dropdown-toggle(data-toggle="dropdown", href="#")
+      i.icon-user 
+      span  #{user.firstName} 
+      span.caret
+    ul.dropdown-menu
+      li 
+        a(href="/logout") Log Out
+  else
+    a.btn.login(href="/login") Log In
     

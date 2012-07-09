@@ -4,21 +4,23 @@ block append css
   link(rel='stylesheet', href='/css/home.css')
 
 block content
-  #search-wrap.clearfix
-    #search-box
-      form(action="/search")
-        label(for="search") Search Audio
-        input(id="search", type="text", name="terms")
-        .search-actions
-          button(type="submit", name="awesome")
-            span Awesome
-          button(type="submit", name="sweet")
-            span Sweet
-    .copy
-      p How to search
-      ul
-        li Campaign name
-        li Date (mm/dd/yyyy)
-        li Telephone number (123-456-7890)
-        li Agent name
+  #search-wrap.container-fluid
+    .row-fluid
+      #search-box.span12
+        form(action="/search")
+          label(for="search") Search Audio
+          input(id="search", type="text", name="terms")
+          .search-actions
+            button(type="submit", name="awesome")
+              span Awesome
+            button(type="submit", name="sweet")
+              span Sweet
+    .row-fluid
+      .directions.span12
+        p How to search
+        ul
+          li Campaign name
+          li Date (mm/dd/yyyy)
+          li Telephone number (123-456-7890)
+          li Agent name
         

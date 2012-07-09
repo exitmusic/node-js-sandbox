@@ -17,7 +17,7 @@ $(document).ready(function() {
   });
 
   initialWindow.scroll(function() {
-    if ($(window).scrollTop() > 20) { // Need to get the latest window object
+    if ($(window).scrollTop() > 29) { // Need to get the latest window object
       filterSearch.addClass("fixed");
       results.addClass("fixed");
       filterSearch.css("width", filterSearchBoxWidth+"px");
