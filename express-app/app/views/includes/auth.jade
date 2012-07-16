@@ -5,8 +5,21 @@
       span  #{user.firstName} 
       span.caret
     ul.dropdown-menu
+      li
+        a(href="#")
+          i.icon-book
+          span  Link Here
+      li
+        a(href="#")
+          i.icon-bookmark
+          span  Link Here
+      li.divider
       li 
-        a(href="/logout") Log Out
+        a(href="/logout")
+          i.icon-remove 
+          span  Log Out
   else
-    a.btn.login(href="/login") Log In
+    a.btn.login(href="/login") 
+      i.icon-hand-right
+      span  Log In
     

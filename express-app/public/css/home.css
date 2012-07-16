@@ -1,7 +1,7 @@
-label{font-size:30px;letter-spacing:20px;}
-input{display:inline;width:75%;}
-#search-box{text-align:center;padding:100px 0;}
-.search-actions{padding:20px 0 0;}
-button{margin:0 10px 0 0;}
-.directions{padding:40px;font-size:17px;color:white;background-color:#555;border:1px solid white;outline:20px solid #555;}.directions p{font-size:22px;border-bottom:5px solid #CD3700;}
-.directions li,.directions p{text-align:center;}
+#search-box{padding:60px 0 0;}#search-box h1{text-align:center;font-size:30px;letter-spacing:20px;padding:0 0 20px;}
+#filter-wrap{padding:5px 0;border-bottom:5px solid #F89406;background-color:white;opacity:0.85;}#filter-wrap.fixed{position:fixed;top:40px;}
+#filter-wrap input{margin-bottom:0;}
+#directory-list{padding:5px 0 170px;margin:0;}#directory-list.fixed{padding-top:45px;}
+#directory-list li{padding:5px;margin:0 0 5px;background-color:#eee;}#directory-list li:hover{background-color:#ddd;}
+.directions{font-size:17px;}.directions h2{font-size:22px;border-top:5px solid #F89406;text-transform:uppercase;letter-spacing:10px;}
+.directions ul{margin:0;}

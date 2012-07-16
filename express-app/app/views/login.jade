@@ -4,23 +4,21 @@ block append css
   link(rel='stylesheet', href='/css/login.css')
 
 block content
-  h1 Log In
-  #login-wrap.clearfix
-    #login-info
-      p Information about logging in here.
-      p Sed lectus augue, semper ac porta nec, sollicitudin at arcu. Etiam in risus ac quam egestas tempor. Curabitur eget commodo leo. Proin sollicitudin adipiscing felis in consequat. Cras ultricies mi mollis massa auctor tincidunt. Aliquam auctor laoreet erat at volutpat. Sed at tellus et nulla euismod lacinia. Phasellus faucibus neque nunc, vitae rhoncus purus. Nullam ut massa nulla, vitae aliquet urna.
-      p Nam sollicitudin, tellus id consequat vehicula, nisl metus rutrum erat, et hendrerit neque mi nec tortor. Ut tempor mollis leo, nec viverra ligula varius vel. Cras accumsan rutrum sodales. Aliquam semper orci nec nisl tincidunt luctus at in elit. Nullam semper ultricies nisi, in ullamcorper enim adipiscing eu. Suspendisse malesuada sem vitae purus pellentesque ac euismod dolor faucibus. Duis lacinia tristique metus et viverra. Integer vitae magna erat.
-    #login
-      h2 Log In
+  #login-wrap.row-fluid
+    #login-info.span8
+      h1 Log In
+      p Log in using your username and password. If you do not have an account, please contact us.
+    #login.well.span4
+      i.icon-lock 
+      h4 Log In
       p.error #{message}
       form(action="/loginUser", method="post")
         .username
           label(for="username") Username
-          input(id="username", type="text", name="username")
+          input.span12(id="username", type="text", name="username")
         .password
           label(for="password") Password
-          input(id="password", type="password", name="password")
-        .actions
-          button(type="submit")
+          input.span12(id="password", type="password", name="password")
+        .login-actions
+          button.btn.btn-primary(type="submit")
             span Log In
-

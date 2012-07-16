@@ -4,23 +4,30 @@ block append css
   link(rel='stylesheet', href='/css/home.css')
 
 block content
-  #search-wrap.container-fluid
-    .row-fluid
-      #search-box.span12
-        form(action="/search")
-          label(for="search") Search Audio
-          input(id="search", type="text", name="terms")
-          .search-actions
-            button(type="submit", name="awesome")
-              span Awesome
-            button(type="submit", name="sweet")
-              span Sweet
-    .row-fluid
-      .directions.span12
-        p How to search
-        ul
-          li Campaign name
-          li Date (mm/dd/yyyy)
-          li Telephone number (123-456-7890)
-          li Agent name
+  #search-wrap.row-fluid
+    .span1
+    #search-box.span10
+      h1 Audio Search
+      #filter-wrap
+        //form(action="/search")
+        input.search.span12(type="text", name="directory", autocomplete="off", placeholder="Type to filter directories")
+          //input.btn.btn-primary(type="submit") Submit
+      ul#directory-list.list
+        each dir, iter in dirList
+          li 
+            if error
+              span.directory #{dir}
+            else
+              a.directory(href="/searchDirectory?directory=#{dir}") #{dir}
+  .directions.row-fluid
+    .span12
+      h2 How to search
+      ul
+        li Campaign name
+        li Date (mm/dd/yyyy)
+        li Telephone number (123-456-7890)
+        li Agent name
+        
+block append script
+  script(src="/js/home.js")
         

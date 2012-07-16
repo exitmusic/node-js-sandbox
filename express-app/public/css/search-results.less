@@ -1,56 +1,41 @@
-h1 {
-  font-size: 17px;
-  font-weight: bold;
-}
-ul {
-  list-style: none;
-}
-audio {
-  width: 100%;
-}
-a:hover {
-  color: #bbb;
-}
-#filter-search {
-  padding: 10px 0 5px;
-  border-bottom: 5px solid #ff6600;
+#filter-wrap {
+  border-bottom: 5px solid #F89406;//#ff6600;
   background-color: white;
   opacity: 0.95;
 
   &.fixed {
-    padding: 5px 0;
     position: fixed;
-    top: 29px;
-    z-index: 9999;
-    
-    h1 {
-        display: none;
+    top: 40px;
+    z-index: 1;
+
+    input {
+      margin-top: 5px;
     }
   }
+  input {
+    margin: 0 0 5px;
+  }
 }
-#filter {
-  width: 50%;
-}
-
 #results {
-  padding: 10px 0 0;
+  margin: 0;
+  padding: 5px 0 0;
   
   &.fixed {
-    padding: 95px 0 0;
+    padding: 45px 0 0;
   }
 }
 .result {
   padding: 10px 10px;
   background-color: #ddd;
   border: 1px solid white;
-  outline: 5px solid #ddd;
-  margin: 0 5px 15px;
+  //outline: 5px solid #ddd;
+  margin: 0 0 5px;
   &.odd {
     background-color: #eee;
-    outline: 5px solid #eee;
+    //outline: 5px solid #eee;
   }
 }
-h2.result-num {
+h4.result-num {
   float: left;
 }
 .audio-file {

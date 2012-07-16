@@ -1,5 +1,4 @@
-var fs = require('fs')
-  , url = require('url')
+var url = require('url')
   , _ = require('underscore')
   , auth = require('./../models/authentication')
   , exec = require('child_process').exec
@@ -7,6 +6,18 @@ var fs = require('fs')
   , Result = require('./../models/result');
 
 function routes(app) {
+  app.get('/searchDirectory', auth.ensureAuthenticated, function(req, res) {
+    var queryUrl
+      , searchDirectory
+      , searchTerms = []
+      , audioSearch;
+    
+    queryUrl = url.parse(req.url, true).query;
+    searchDirectory = queryUrl.directory.trim();
+    console.log(searchDirectory);
+    audioSearch = new Search(searchTerms);
+    audioSearch.getResults(req, res, renderSearchResults);
+  });
   app.get('/search', auth.ensureAuthenticated, function(req, res) {
     var queryUrl
       , searchTerms = []
@@ -28,15 +39,14 @@ function routes(app) {
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerREsponse} res Instance of Node's HTTP server response class
  */
-function renderSearchResults(results, searchTerms, req, res) {
+function renderSearchResults(req, res, results, searchTerms) {
   res.render('search-results', {
-    results: results, 
-    title: 'Search', 
-    isAuthenticated: req.isAuthenticated(),
-    user: req.user,
-    searchTerms: searchTerms
+      results: results 
+    , title: 'Search'
+    , isAuthenticated: req.isAuthenticated()
+    , user: req.user
+    , searchTerms: searchTerms
   });
 }
-
 
 module.exports = routes;

@@ -1,12 +1,8 @@
-h1{font-size:17px;font-weight:bold;}
-ul{list-style:none;}
-audio{width:100%;}
-a:hover{color:#bbb;}
-#filter-search{padding:10px 0 5px;border-bottom:5px solid #ff6600;background-color:white;opacity:0.95;}#filter-search.fixed{padding:5px 0;position:fixed;top:29px;z-index:9999;}#filter-search.fixed h1{display:none;}
-#filter{width:50%;}
-#results{padding:10px 0 0;}#results.fixed{padding:95px 0 0;}
-.result{padding:10px 10px;background-color:#ddd;border:1px solid white;outline:5px solid #ddd;margin:0 5px 15px;}.result.odd{background-color:#eee;outline:5px solid #eee;}
-h2.result-num{float:left;}
+#filter-wrap{border-bottom:5px solid #F89406;background-color:white;opacity:0.95;}#filter-wrap.fixed{position:fixed;top:40px;z-index:1;}#filter-wrap.fixed input{margin-top:5px;}
+#filter-wrap input{margin:0 0 5px;}
+#results{margin:0;padding:5px 0 0;}#results.fixed{padding:45px 0 0;}
+.result{padding:10px 10px;background-color:#ddd;border:1px solid white;margin:0 0 5px;}.result.odd{background-color:#eee;}
+h4.result-num{float:left;}
 .audio-file{width:50%;float:right;}
 p.no-files-found{padding:180px 0;text-align:center;}
 p.filename{clear:both;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}

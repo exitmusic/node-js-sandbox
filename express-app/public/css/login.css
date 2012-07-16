@@ -1,7 +1,2 @@
-input{width:300px;}
-#main-content{min-width:700px;}
-#login-wrap{padding:10px 0 0;}
-#login-info{float:left;width:45%;}
-#login{padding:20px 30px 30px;background-color:#eee;border:1px solid #ddd;float:right;}#login .error{padding:5px 0 0;color:#ff3333;font-weight:bold;}
-#login .username{padding:20px 0 0;}
-#login .password,#login .actions{padding:10px 0 0;}
+#login .icon-lock{float:right;}
+#login .error{padding:5px 0 0;color:#ff3333;font-weight:bold;}
