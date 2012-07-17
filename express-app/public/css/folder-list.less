@@ -1,0 +1,57 @@
+#filter-wrap {
+  border-bottom: 5px solid #F89406;//#ff6600;
+  background-color: white;
+  opacity: 0.95;
+
+  &.fixed {
+    position: fixed;
+    top: 40px;
+    z-index: 1;
+
+    input {
+      margin-top: 5px;
+    }
+  }
+  input {
+    margin: 0 0 5px;
+  }
+}
+#results {
+  margin: 0;
+  padding: 5px 0 0;
+  
+  &.fixed {
+    padding: 45px 0 0;
+  }
+}
+.result {
+  padding: 10px 10px;
+  background-color: #ddd;
+  border: 1px solid white;
+  //outline: 5px solid #ddd;
+  margin: 0 0 5px;
+  &.odd {
+    background-color: #eee;
+    //outline: 5px solid #eee;
+  }
+}
+h4.result-num {
+  float: left;
+}
+.audio-file {
+  width: 50%;
+  float: right;
+}
+p.no-files-found {
+  padding: 180px 0;
+  text-align: center;
+}
+p.filename {
+  clear: both;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+span.directory {
+  letter-spacing: 1px;
+}

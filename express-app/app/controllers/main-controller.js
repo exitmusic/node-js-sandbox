@@ -5,8 +5,7 @@ function routes(app) {
   app.get('/', function(req, res) {
     var directorySearch = new Search();
     
-    directorySearch.getList(req, res, renderHome);
-    //renderHome(req, res);
+    directorySearch.getMainDirList(req, res, renderHome);
   });
   app.get('/about', function(req, res) {
     res.render('about', {
@@ -24,13 +23,13 @@ function routes(app) {
   });
 }
 
-function renderHome(req, res, err, directoryList) {
+function renderHome(req, res, params) {
   res.render('home', {
       title: 'Audio Search'
     , isAuthenticated: req.isAuthenticated()
-    , error: err
     , user: req.user
-    , dirList: directoryList
+    , error: params.error
+    , dirList: params.directoryList
   });
 }
 

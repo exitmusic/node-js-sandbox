@@ -20,13 +20,13 @@ block content
             else
               a.directory(href="/searchDirectory?directory=#{dir}") #{dir}
   .directions.row-fluid
-    .span12
+    .span1
+    .span10
       h2 How to search
-      ul
-        li Campaign name
-        li Date (mm/dd/yyyy)
-        li Telephone number (123-456-7890)
-        li Agent name
+      ol
+        li Type to filter results
+        li Select campaign directory
+        li Select date directory
         
 block append script
   script(src="/js/home.js")

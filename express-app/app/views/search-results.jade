@@ -28,11 +28,11 @@ block content
                 .audio-file
                   audio.span12(src="/media/#{result.filename}", controls)
                     p Your browser doesn't support HTML5 audio
-                p.filename #{result.path}
+                p.filename #{result.directory}
                 p
                   //- a(href="/media/#{result.filename}") #{result.filename}
                   //- br
-                  a(href="#{result.path}") #{result.filename}
+                  a(href="#{result.directory}") #{result.filename}
 
 block append script
   script(src="/js/search-results.js")

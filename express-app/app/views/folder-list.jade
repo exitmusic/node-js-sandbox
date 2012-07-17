@@ -1,0 +1,26 @@
+extends templates/standard
+
+block append css
+  link(rel='stylesheet', href='/css/folder-list.css')
+
+block content
+  .row-fluid
+    #results-list.span12
+      h3 Contents of #{directory}
+      #filter-wrap
+        input.search.span12(id="filter", type="text", placeholder="Type to filter results")
+      ul#results.list
+        if (folders.length === 0)
+          li.result.span12
+            p.no-files-found No files found
+        else
+          each folder, iter in folders
+            .row-fluid
+              li.result.span12(class="#{iter % 2 === 0 ? '' : 'odd'}")
+                h4.result-num ##{iter + 1}
+                p.filename #{directory}/#{folder.directory}
+                p
+                  a(href="/searchDirectory?directory=#{directory+"/"+folder.directory}") #{folder.directory}
+
+block append script
+  script(src="/js/search-results.js")

@@ -14,9 +14,8 @@ function routes(app) {
     
     queryUrl = url.parse(req.url, true).query;
     searchDirectory = queryUrl.directory.trim();
-    console.log(searchDirectory);
     audioSearch = new Search(searchTerms);
-    audioSearch.getResults(req, res, renderSearchResults);
+    audioSearch.getFolderList(req, res, searchDirectory, renderFolderList);
   });
   app.get('/search', auth.ensureAuthenticated, function(req, res) {
     var queryUrl
@@ -33,19 +32,35 @@ function routes(app) {
 
 /**
  * Renders the search results page
- * @method renderSearchResults
- * @param {Array} results Array containing results
- * @param {Array} searchTerms Array containing search terms
+ * @method renderFolderList
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerREsponse} res Instance of Node's HTTP server response class
+ * @param {Object} results params Object containing extra parameters
  */
-function renderSearchResults(req, res, results, searchTerms) {
-  res.render('search-results', {
-      results: results 
-    , title: 'Search'
+function renderFolderList(req, res, params) {
+  res.render('folder-list', {
+      title: 'Folders'
     , isAuthenticated: req.isAuthenticated()
     , user: req.user
-    , searchTerms: searchTerms
+    , folders: params.folders 
+    , directory: params.directory
+  });
+}
+
+/**
+ * Renders the search results page
+ * @method renderSearchResults
+ * @param {http.ServerRequest} req Instance of Node's HTTP server request class
+ * @param {http.ServerREsponse} res Instance of Node's HTTP server response class
+ * @param {Object} results params Object containing extra parameters
+ */
+function renderSearchResults(req, res, params) {
+  res.render('search-results', {
+      title: 'Search'
+    , isAuthenticated: req.isAuthenticated()
+    , user: req.user
+    , results: params.results 
+    , searchTerms: params.searchTerms
   });
 }
 

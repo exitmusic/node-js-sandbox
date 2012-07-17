@@ -5,7 +5,12 @@ var exec = require('child_process').exec
   , async = require('async')
   , auth = require('./authentication')
   , campaign = require('./campaign')
-  , Result = require('./result');
+  , Result = require('./result')
+
+  , LOCAL_SEARCH_PATH = "~"
+  , SEARCH_PATH = "/home"
+  , REGEX_IGNORE_HIDDEN = "\\( ! -regex '.*/\\..*' \\)" // Discards hidden files and directories
+  , PRINT_FORMAT = "'%p||%f||wav\n'";
 
 function Search(searchTerms) {
   this.searchTerms = searchTerms; //TODO(kchang): For now assume array positions
@@ -14,77 +19,109 @@ function Search(searchTerms) {
   this.telephone = ""; //TODO(kchang): Call smart function to determine telephone from search terms?
   this.agent = ""; //TODO(kchang): Call smart function to determine agent from search terms?
 }
+
+/**
+ * Gets a list of the root directories the user is allowed to search
+ * @method getMainDirList
+ * @param {http.ServerRequest} req Instance of Node's HTTP server request class
+ * @param {http.ServerResponse} res Instance of Node's HTTP server response class
+ * @param {Function} viewCallback Callback function to render the view
+ */
+Search.prototype.getMainDirList = function(req, res, viewCallback) {
+  var dirQueries = []
+    , validPaths = [] // Paths allowed to search
+    , directories = []; 
+
+  if (req.isAuthenticated()) {
+    dirQueries = getConstructedDirQueries(req.user.directories);
+    validPaths = getValidPaths(req, res, dirQueries, viewCallback);
+  } else {
+    directories.push("Log in to see available directories");
+    viewCallback(req, res, {
+        error: true
+      , directoryList: directories
+    });
+  }
+}
+
+/**
+ * Gets a list of folders in a given directory
+ * @method getFolderList
+ * @param {http.ServerRequest} req Instance of Node's HTTP server request class
+ * @param {http.ServerResponse} res Instance of Node's HTTP server response class
+ * @param {String} directory The directory to read the contents of
+ * @param {Function} viewCallback Callback function to render the view
+ */
+Search.prototype.getFolderList = function(req, res, directory, viewCallback) {
+  var folders = [];
+
+  fs.readdir(directory, function(err, files) {
+    try {
+      files.forEach(function(element, index) {
+        console.log(directory+"/"+element+": "+fs.statSync(directory+"/"+element).isDirectory())
+        if (fs.statSync(directory+"/"+element).isDirectory()) {
+          folders.push(new Result(element, null, null));
+        }
+      });
+    } catch (error) {
+      //error
+    }
+    viewCallback(req, res, {
+        folders: folders
+      , directory: directory
+    });
+  });
+}
+
 /**
  * Gets results from the file system 
  * @method getResults
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
- * @param {http.ServerREsponse} res Instance of Node's HTTP server response class
+ * @param {http.ServerResponse} res Instance of Node's HTTP server response class
  * @param {Function} viewCallback Callback function to render the view
  */
 Search.prototype.getResults = function(req, res, viewCallback) {
-  var LOCAL_SEARCH_PATH = "~"
-    , SEARCH_PATH = "/home"
-    , REGEX_IGNORE_HIDDEN = "\\( ! -regex '.*/\\..*' \\)" // Discards hidden files and directories
-    , PRINT_FORMAT = "'%p||%f||wav\n'"
-    , dirQueries = []
+  var dirQueries = []
     , validPaths = [] // Paths allowed to search
     , searchTerms = this.searchTerms
     , results = []
-    , queries = [];
+    , queries = []
+    , filesArray
+    , elementParsed;
   
-  // TODO(kchang): Search available directories for campaigns  
-  // TODO(kchang): Search agent, telephone, date
-  
-  dirQueries = getConstructedDirQueries(req.user.directories, LOCAL_SEARCH_PATH);
+  dirQueries = getConstructedDirQueries(req.user.directories);
   validPaths = getValidPaths(dirQueries);
-  queries = getConstructedFileQueries(validPaths, searchTerms, REGEX_IGNORE_HIDDEN, PRINT_FORMAT);
+  queries = getConstructedFileQueries(validPaths, searchTerms);
   
-  //TODO(kchang): Move declarations up when done testing
-  var filesArray
-    , elementParsed
-    , oneResult;
   async.forEach(queries, function(query, callback) {
     exec(query, function(err, stdout, stderr) {
       filesArray = stdout.split("\n");
       filesArray.forEach(function(element, index) {
         if (element !== "") {
           elementParsed = element.split("||"),
-          oneResult = new Result(elementParsed[0], elementParsed[1], elementParsed[2]);
-          results.push(oneResult);
+          // [0]: directory, [1]: filename, [2]: extension
+          results.push(new Result(elementParsed[0], elementParsed[1], elementParsed[2]));
         }
       });
       callback(null, results);
     });
   }, function(err) {
-    viewCallback(req, res, results, searchTerms); // calls the view
+    viewCallback(req, res, {
+        results: results
+      , searchTerms: searchTerms // calls the view
+    });
   });
   // TODO(kchang): Create a static file containing a directory listing the first time? Use grep to search?
 };
 
-//TODO(kchang): Better solution for constants
-Search.prototype.getList = function(req, res, viewCallback) {
-  var LOCAL_SEARCH_PATH = "~"
-    , REGEX_IGNORE_HIDDEN = "\\( ! -regex '.*/\\..*' \\)" // Discards hidden files and directories
-    , PRINT_FORMAT = "'%p||%f||wav\n'"
-    , dirQueries = []
-    , validPaths = [] // Paths allowed to search
-    , directories = []; 
-
-  if (req.isAuthenticated()) {
-    dirQueries = getConstructedDirQueries(req.user.directories, LOCAL_SEARCH_PATH, REGEX_IGNORE_HIDDEN);
-    validPaths = getValidPaths(req, res, dirQueries, viewCallback);
-  } else {
-    directories.push("Log in to see available directories");
-    viewCallback(req, res, true, directories);
-  }
-  //TODO(kchang): Don't call this again if the results already exist
-  //fs.readdir(LOCAL_SEARCH_PATH, function(err, files) {
-    //console.log(err+files);
-    //viewCallback(req, res, files);
-  //});
-}
-
-//TODO(kchang): May need to use wildcards based on directory name structure
+/**
+ * Gets a list of directories containing the keywords in the dirQueries array
+ * @method getValidPaths
+ * @param {http.ServerRequest} req Instance of Node's HTTP server request class
+ * @param {http.ServerResponse} res Instance of Node's HTTP server response class
+ * @param {Array} dirQueries A list of keywords used to search directory names
+ * @param {Function} viewCallback Callback function to render the view
+ */
 function getValidPaths(req, res, dirQueries, viewCallback) {
   var dirArray = []
     , results = [];
@@ -99,16 +136,20 @@ function getValidPaths(req, res, dirQueries, viewCallback) {
       callback(null, results);
     });
   }, function(err) {
+    results = _.uniq(results);
     if (results.length === 0) {
       err = true;
       results.push("You are not authorized to search any directories. Please contact us.");
     }
-    viewCallback(req, res, err, results); // calls the view
+    viewCallback(req, res, {
+        error: err
+      , directoryList: results // calls the view
+    });
   });
   return results;
 }
 
-function getConstructedDirQueries(directories, LOCAL_SEARCH_PATH, REGEX_IGNORE_HIDDEN) {
+function getConstructedDirQueries(directories) {
   var query
     , dirQueries = [];
   
@@ -125,7 +166,7 @@ function getConstructedDirQueries(directories, LOCAL_SEARCH_PATH, REGEX_IGNORE_H
   return dirQueries;
 }
 
-function getConstructedFileQueries(validPaths, searchTerms, REGEX_IGNORE_HIDDEN, PRINT_FORMAT) {
+function getConstructedFileQueries(validPaths, searchTerms) {
   var findQuery
     , constructedQueries = [];
   
@@ -146,18 +187,4 @@ function getConstructedFileQueries(validPaths, searchTerms, REGEX_IGNORE_HIDDEN,
   return constructedQueries;
 }
 
-function getCampaigns() {
-  var CAMPAIGN_PATH = "~"
-    , query;
-  
-  query = "find "
-    + CAMPAIGN_PATH
-    + " -maxdepth 1 -type d -print0";
-  exec(query, function(err, stdout, stderr) {
-    fs.writeFile('/tmp/query-campaigns.log', stdout, function(err) {});
-  });
-}
-
-//exports.getResults = getResults;
-//exports.getList = getList;
 module.exports = Search;

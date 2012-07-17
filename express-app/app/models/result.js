@@ -1,5 +1,5 @@
-function Result(path, filename, ext) {
-  this.path = path;
+function Result(directory, filename, ext) {
+  this.directory = directory;
   this.filename = filename;
   this.ext = ext;
 }

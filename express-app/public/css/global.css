@@ -1,5 +1,5 @@
 body{overflow-y:scroll;}
-h1,h2,h3,h4,h5{letter-spacing:4px;}
+h1{letter-spacing:4px;}
 a:hover{cursor:pointer;}
 ul{list-style:none;}
 label{font-weight:bold;}
