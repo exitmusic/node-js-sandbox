@@ -12,12 +12,17 @@ var exec = require('child_process').exec
   , REGEX_IGNORE_HIDDEN = "\\( ! -regex '.*/\\..*' \\)" // Discards hidden files and directories
   , PRINT_FORMAT = "'%p||%f||wav\n'";
 
-function Search(searchTerms) {
-  this.searchTerms = searchTerms; //TODO(kchang): For now assume array positions
-  this.campaign = ""; //TODO(kchang): Call smart function to determine campaign from search terms?
-  this.date = ""; //TODO(kchang): Call smart function to determine date from search terms?
-  this.telephone = ""; //TODO(kchang): Call smart function to determine telephone from search terms?
-  this.agent = ""; //TODO(kchang): Call smart function to determine agent from search terms?
+/**
+ * Gets a list of the root directories the user is allowed to search
+ * @constructor
+ * @param {String} directory The directory to perform the search on
+ * @param {Array} terms The terms used to perform the search
+ * @param {Function} view The view to call to display the results
+ */
+function Search(directory, terms, view) {
+  this.directory = directory;
+  this.terms = terms;
+  this.view = view;
 }
 
 /**
@@ -25,50 +30,61 @@ function Search(searchTerms) {
  * @method getMainDirList
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerResponse} res Instance of Node's HTTP server response class
- * @param {Function} viewCallback Callback function to render the view
  */
-Search.prototype.getMainDirList = function(req, res, viewCallback) {
+Search.prototype.getMainDirList = function(req, res) {
   var dirQueries = []
-    , validPaths = [] // Paths allowed to search
-    , directories = []; 
+    , directories = []
+    , results = []
+    , viewCallback = this.view; 
 
-  if (req.isAuthenticated()) {
-    dirQueries = getConstructedDirQueries(req.user.directories);
-    validPaths = getValidPaths(req, res, dirQueries, viewCallback);
-  } else {
-    directories.push("Log in to see available directories");
-    viewCallback(req, res, {
-        error: true
-      , directoryList: directories
+  dirQueries = getConstructedDirQueries(req.user.directories);
+  async.forEach(dirQueries, function(query, callback) {
+    exec(query, function(err, stdout, stderr) {
+      directories = _.without(stdout.split("\n"), "")
+      directories.forEach(function(element, index) {
+        results.push(path.normalize(element));
+      });
+      callback(null, 'done');
     });
-  }
+  }, function(err) {
+    results = _.uniq(results);
+    if (results.length === 0) {
+      err = true;
+      results.push("You are not authorized to search any directories. Please contact us.");
+    }
+    viewCallback(req, res, {
+        error: err
+      , directoryList: results // calls the view
+    });
+  });  
 }
 
 /**
- * Gets a list of folders in a given directory
- * @method getFolderList
+ * Gets the contents of a given directory
+ * @method getDirContents
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerResponse} res Instance of Node's HTTP server response class
- * @param {String} directory The directory to read the contents of
- * @param {Function} viewCallback Callback function to render the view
  */
-Search.prototype.getFolderList = function(req, res, directory, viewCallback) {
-  var folders = [];
+Search.prototype.getDirContents = function(req, res) {
+  var directory = this.directory
+    , viewCallback = this.view
+    , contents = [];
 
   fs.readdir(directory, function(err, files) {
-    try {
-      files.forEach(function(element, index) {
-        console.log(directory+"/"+element+": "+fs.statSync(directory+"/"+element).isDirectory())
-        if (fs.statSync(directory+"/"+element).isDirectory()) {
-          folders.push(new Result(element, null, null));
+    async.forEach(files, function(file, callback) {
+      fs.stat(directory+"/"+file, function(err, stats) {
+        if (stats.isDirectory()) {
+          contents.push(new Result(directory+"/"+file, null, null));
+        } else {
+          contents.push(new Result(directory, file, file.split(".").pop()));
         }
+        callback(null, 'done');
       });
-    } catch (error) {
-      //error
-    }
-    viewCallback(req, res, {
-        folders: folders
-      , directory: directory
+    }, function(err) {
+      viewCallback(req, res, {
+          contents: contents
+        , directory: directory
+      });
     });
   });
 }
@@ -78,19 +94,20 @@ Search.prototype.getFolderList = function(req, res, directory, viewCallback) {
  * @method getResults
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerResponse} res Instance of Node's HTTP server response class
- * @param {Function} viewCallback Callback function to render the view
  */
-Search.prototype.getResults = function(req, res, viewCallback) {
+Search.prototype.getResults = function(req, res) {
   var dirQueries = []
     , validPaths = [] // Paths allowed to search
     , searchTerms = this.searchTerms
+    , viewCallback = this.view
     , results = []
     , queries = []
     , filesArray
     , elementParsed;
   
   dirQueries = getConstructedDirQueries(req.user.directories);
-  validPaths = getValidPaths(dirQueries);
+  //TODO(kchang): This is no longer valid
+  //validPaths = getValidPaths(dirQueries);
   queries = getConstructedFileQueries(validPaths, searchTerms);
   
   async.forEach(queries, function(query, callback) {
@@ -111,44 +128,14 @@ Search.prototype.getResults = function(req, res, viewCallback) {
       , searchTerms: searchTerms // calls the view
     });
   });
-  // TODO(kchang): Create a static file containing a directory listing the first time? Use grep to search?
 };
 
 /**
- * Gets a list of directories containing the keywords in the dirQueries array
- * @method getValidPaths
- * @param {http.ServerRequest} req Instance of Node's HTTP server request class
- * @param {http.ServerResponse} res Instance of Node's HTTP server response class
- * @param {Array} dirQueries A list of keywords used to search directory names
- * @param {Function} viewCallback Callback function to render the view
+ * Constructs a find query to search for directories containing the keywords in the directories array
+ * @method getConstructedDirQueries
+ * @param {Array} directories Instance of Node's HTTP server request class
+ * @return {Array} An array containing all of the queries
  */
-function getValidPaths(req, res, dirQueries, viewCallback) {
-  var dirArray = []
-    , results = [];
-  
-  async.forEach(dirQueries, function(query, callback) {
-    exec(query, function(err, stdout, stderr) {
-      dirArray = stdout.split("\n");
-      dirArray = _.without(dirArray, "")
-      dirArray.forEach(function(element, index) {
-        results.push(path.normalize(element));
-      });
-      callback(null, results);
-    });
-  }, function(err) {
-    results = _.uniq(results);
-    if (results.length === 0) {
-      err = true;
-      results.push("You are not authorized to search any directories. Please contact us.");
-    }
-    viewCallback(req, res, {
-        error: err
-      , directoryList: results // calls the view
-    });
-  });
-  return results;
-}
-
 function getConstructedDirQueries(directories) {
   var query
     , dirQueries = [];

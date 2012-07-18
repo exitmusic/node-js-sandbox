@@ -3,9 +3,16 @@ var Search = require('./../models/search');
 function routes(app) {
   //TODO(kchang): Standardize parameters passed to views
   app.get('/', function(req, res) {
-    var directorySearch = new Search();
+    var rootSearch = new Search("", [], renderHome);
     
-    directorySearch.getMainDirList(req, res, renderHome);
+    if (req.isAuthenticated()) {
+      rootSearch.getMainDirList(req, res);
+    } else {
+      renderHome(req, res, {
+          error: true
+        , directoryList: ["Log in to see available directories"]
+      });
+    }
   });
   app.get('/about', function(req, res) {
     res.render('about', {

@@ -7,7 +7,7 @@ var users = [
       , firstName: 'Bob'
       , lastName: 'Bob'
       , email: 'bob@example.com'
-      , directories: ['repos', 'tools', 'e']
+      , directories: ['repos', 'tools', 'e', 'a']
     }
   , {
         id: 2

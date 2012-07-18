@@ -9,13 +9,12 @@ function routes(app) {
   app.get('/searchDirectory', auth.ensureAuthenticated, function(req, res) {
     var queryUrl
       , searchDirectory
-      , searchTerms = []
       , audioSearch;
     
     queryUrl = url.parse(req.url, true).query;
     searchDirectory = queryUrl.directory.trim();
-    audioSearch = new Search(searchTerms);
-    audioSearch.getFolderList(req, res, searchDirectory, renderFolderList);
+    audioSearch = new Search(searchDirectory, [], renderDirectoryContents);
+    audioSearch.getDirContents(req, res);
   });
   app.get('/search', auth.ensureAuthenticated, function(req, res) {
     var queryUrl
@@ -25,24 +24,25 @@ function routes(app) {
     queryUrl = url.parse(req.url, true).query;
     searchTerms = queryUrl.terms.trim().split(" ");
     searchTerms = _.without(searchTerms, "");
-    audioSearch = new Search(searchTerms);
-    audioSearch.getResults(req, res, renderSearchResults);
-	});
+    audioSearch = new Search("", searchTerms, renderSearchResults);
+    audioSearch.getResults(req, res);
+  });
 }
 
 /**
  * Renders the search results page
  * @method renderFolderList
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
- * @param {http.ServerREsponse} res Instance of Node's HTTP server response class
- * @param {Object} results params Object containing extra parameters
+ * @param {http.ServerResponse} res Instance of Node's HTTP server response class
+ * @param {Object} params Object containing extra parameters
+ *  
  */
-function renderFolderList(req, res, params) {
-  res.render('folder-list', {
-      title: 'Folders'
+function renderDirectoryContents(req, res, params) {
+  res.render('directory-contents', {
+      title: 'Directory'
     , isAuthenticated: req.isAuthenticated()
     , user: req.user
-    , folders: params.folders 
+    , contents: params.contents 
     , directory: params.directory
   });
 }
@@ -51,8 +51,8 @@ function renderFolderList(req, res, params) {
  * Renders the search results page
  * @method renderSearchResults
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
- * @param {http.ServerREsponse} res Instance of Node's HTTP server response class
- * @param {Object} results params Object containing extra parameters
+ * @param {http.ServerResponse} res Instance of Node's HTTP server response class
+ * @param {Object} params Object containing extra parameters
  */
 function renderSearchResults(req, res, params) {
   res.render('search-results', {

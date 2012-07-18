@@ -1,7 +1,7 @@
 extends templates/standard
 
 block append css
-  link(rel='stylesheet', href='/css/folder-list.css')
+  link(rel='stylesheet', href='/css/directory-contents.css')
 
 block content
   .row-fluid
@@ -10,17 +10,18 @@ block content
       #filter-wrap
         input.search.span12(id="filter", type="text", placeholder="Type to filter results")
       ul#results.list
-        if (folders.length === 0)
+        if (contents.length === 0)
           li.result.span12
             p.no-files-found No files found
         else
-          each folder, iter in folders
+          each file, iter in contents
             .row-fluid
               li.result.span12(class="#{iter % 2 === 0 ? '' : 'odd'}")
                 h4.result-num ##{iter + 1}
-                p.filename #{directory}/#{folder.directory}
+                p.filename #{directory}/#{file.directory}
+                p.filename #{file.filename} : #{file.ext}
                 p
-                  a(href="/searchDirectory?directory=#{directory+"/"+folder.directory}") #{folder.directory}
+                  a(href="/searchDirectory?directory=#{file.directory}") #{file.directory}
 
 block append script
   script(src="/js/search-results.js")
