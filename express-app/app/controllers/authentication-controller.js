@@ -13,7 +13,7 @@ function routes(app) {
   });
   
   app.post(
-      '/loginUser', 
+      '/login', 
       passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login',

@@ -82,8 +82,8 @@ Search.prototype.getDirContents = function(req, res) {
       });
     }, function(err) {
       viewCallback(req, res, {
-          contents: contents
-        , directory: directory
+          directory: directory  
+        , contents: contents
       });
     });
   });

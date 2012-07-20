@@ -34,16 +34,16 @@ function routes(app) {
  * @method renderFolderList
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerResponse} res Instance of Node's HTTP server response class
- * @param {Object} params Object containing extra parameters
- *  
+ * @param {String} params.directory Full path of the directory to display the contents of
+ * @param {Array} params.contents The contents of the given directory
  */
 function renderDirectoryContents(req, res, params) {
   res.render('directory-contents', {
       title: 'Directory'
     , isAuthenticated: req.isAuthenticated()
     , user: req.user
-    , contents: params.contents 
     , directory: params.directory
+    , contents: params.contents
   });
 }
 
@@ -52,15 +52,16 @@ function renderDirectoryContents(req, res, params) {
  * @method renderSearchResults
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerResponse} res Instance of Node's HTTP server response class
- * @param {Object} params Object containing extra parameters
+ * @param {Array} params.searchTerms The terms used to search with
+ * @param {Array} params.results The results of the search performed using searchTerms
  */
 function renderSearchResults(req, res, params) {
   res.render('search-results', {
       title: 'Search'
     , isAuthenticated: req.isAuthenticated()
     , user: req.user
-    , results: params.results 
     , searchTerms: params.searchTerms
+    , results: params.results
   });
 }
 

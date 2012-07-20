@@ -18,10 +18,16 @@ block content
             .row-fluid
               li.result.span12(class="#{iter % 2 === 0 ? '' : 'odd'}")
                 h4.result-num ##{iter + 1}
-                p.filename #{directory}/#{file.directory}
-                p.filename #{file.filename} : #{file.ext}
-                p
-                  a(href="/searchDirectory?directory=#{file.directory}") #{file.directory}
-
+                if (file.filename !== null)
+                  p.filename #{file.directory}
+                  .audio-file
+                    audio.span12(src="/media/#{file.filename}", controls)
+                      p Your browser doesn't support HTML5 audio
+                  p
+                    a(href="#{file.directory}/#{file.filename}") #{file.filename}
+                else 
+                  p.filename #{file.directory}
+                  p
+                    a(href="/searchDirectory?directory=#{file.directory}") #{file.directory}
 block append script
   script(src="/js/search-results.js")
