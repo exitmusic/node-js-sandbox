@@ -1,10 +1,9 @@
 var Search = require('./../models/search');
 
 function routes(app) {
-  //TODO(kchang): Standardize parameters passed to views
   app.get('/', function(req, res) {
     var rootSearch = new Search("", [], renderHome);
-    //console.log(req);
+
     if (req.isAuthenticated()) {
       rootSearch.getMainDirList(req, res);
     } else {
