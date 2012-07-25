@@ -1,17 +1,35 @@
 var assert = require("assert")
+  , http = require("http")
   , Search = require("../app/models/search");
 
 describe('Search', function() {
-  var testSearch;
+  var testSearch
+    , request = http.ServerRequest
+    , response = http.ServerResponse
+    , resultsArray = [];
   
   before(function() {
     testSearch = new Search(
         "/test/directory"
       , ["test", "search", "terms"]
-      , function() {
-          return console.log("Test function");
+      , function(req, res, params) {
+          var result = {};
+          //console.log(params.error+'\n'+params.directoryList);
+          result = {error: params.error, directoryList: params.directoryList};
+          //console.log(result);
+          //console.log(resultsArray.length);
+          resultsArray.push(result);
+          //console.log(resultsArray);
+          //return resultsArray;
         }
     );
+    
+    // Mock user object in the http request
+    request = {
+      user: {
+        directories: ["test", "directories"]
+      }
+    };
   });
   
   describe('#Constructor', function() {    
@@ -29,8 +47,12 @@ describe('Search', function() {
   });
   
   describe('#getMainDirList()', function() {
-    it('should ', function() {
-      
+    it('should ', function(done) {
+      testSearch.getMainDirList(request, response, function() {
+        //console.log(testSearch.view(request, response, {error:'none', directoryList:'none'}));
+        console.log(resultsArray.length);
+        done();
+      });
     });
   })
 });

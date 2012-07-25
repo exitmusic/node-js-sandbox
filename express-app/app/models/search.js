@@ -26,12 +26,13 @@ function Search(directory, terms, view) {
 }
 
 /**
- * Gets a list of the root directories the user is allowed to search
+ * Asynchronously gets a list of the root directories the user is allowed to search
  * @method getMainDirList
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerResponse} res Instance of Node's HTTP server response class
+ * @param {Function} cb Callback function
  */
-Search.prototype.getMainDirList = function(req, res) {
+Search.prototype.getMainDirList = function(req, res, cb) {
   var dirQueries = []
     , directories = []
     , results = []
@@ -54,18 +55,20 @@ Search.prototype.getMainDirList = function(req, res) {
     }
     viewCallback(req, res, {
         error: err
-      , directoryList: results // calls the view
+      , directoryList: results
     });
+    cb();
   });  
 }
 
 /**
- * Gets the contents of a given directory
+ * Asynchronously gets the contents of a given directory
  * @method getDirContents
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerResponse} res Instance of Node's HTTP server response class
+ * @param {Function} cb Callback function
  */
-Search.prototype.getDirContents = function(req, res) {
+Search.prototype.getDirContents = function(req, res, cb) {
   var directory = this.directory
     , viewCallback = this.view
     , contents = [];
@@ -85,17 +88,19 @@ Search.prototype.getDirContents = function(req, res) {
           directory: directory  
         , contents: contents
       });
+      cb();
     });
   });
 }
 
 /**
- * Gets results from the file system 
+ * Asynchronously gets results from the file system 
  * @method getResults
  * @param {http.ServerRequest} req Instance of Node's HTTP server request class
  * @param {http.ServerResponse} res Instance of Node's HTTP server response class
+ * @param {Function} cb Callback function
  */
-Search.prototype.getResults = function(req, res) {
+Search.prototype.getResults = function(req, res, cb) {
   var dirQueries = []
     , validPaths = [] // Paths allowed to search
     , searchTerms = this.searchTerms
@@ -120,7 +125,7 @@ Search.prototype.getResults = function(req, res) {
           results.push(new Result(elementParsed[0], elementParsed[1], elementParsed[2]));
         }
       });
-      callback(null, results);
+      callback(null, 'done');
     });
   }, function(err) {
     viewCallback(req, res, {
@@ -161,11 +166,11 @@ function getConstructedFileQueries(validPaths, searchTerms) {
   validPaths.forEach(function(onePath, index) {
     searchTerms.forEach(function(searchTerm, index) {
       findQuery = "find "
-        + onePath //TODO(kchang): Loop through all paths and create separate queries?
+        + onePath
         + " "
         + REGEX_IGNORE_HIDDEN
         + " -type f -iname '*"
-        + searchTerm //TODO(kchang): Better solution
+        + searchTerm
         + "*' -printf "
         + PRINT_FORMAT;
       constructedQueries.push(findQuery);
