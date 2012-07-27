@@ -6,7 +6,7 @@ block append css
 block content
   .row-fluid
     #results-list.span12
-      h3 Contents of #{directory}
+      h3 Contents of /#{directory}
       #filter-wrap
         input.search.span12(id="filter", type="text", placeholder="Type to filter results")
       ul#results.list
@@ -17,17 +17,17 @@ block content
           each file, iter in contents
             .row-fluid
               li.result.span12(class="#{iter % 2 === 0 ? '' : 'odd'}")
-                h4.result-num ##{iter + 1}
-                if (file.filename !== null)
-                  p.filename #{file.directory}
-                  .audio-file
-                    audio.span12(src="/media/#{file.filename}", controls)
-                      p Your browser doesn't support HTML5 audio
-                  p
-                    a(href="#{file.directory}/#{file.filename}") #{file.filename}
-                else 
-                  p.filename #{file.directory}
-                  p
-                    a(href="/searchDirectory?directory=#{file.directory}") #{file.directory}
+                .row-fluid
+                  h4.result-num.span1 #{iter + 1}
+                  if (file.ext !== null)
+                    p.span6
+                      i.icon-download-alt
+                      a.filename(href="#{file.directory}/#{file.filename}") #{file.filename}
+                    .audio-file.span5
+                      audio.span12(src="#{file.directory}/#{file.filename}", controls)
+                        p Your browser doesn't support HTML5 audio
+                  else 
+                    p.directory.span6
+                      a.filename(href="/searchDirectory?directory=#{file.directory}") /#{file.filename}
 block append script
   script(src="/js/search-results.js")

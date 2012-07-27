@@ -38,17 +38,20 @@ Search.prototype.getMainDirList = function(req, res, cb) {
     , results = []
     , viewCallback = this.view; 
 
-  dirQueries = getConstructedDirQueries(req.user.directories);
+  dirQueries = getConstructedDirQueries(req.user.dirKeywords);
   async.forEach(dirQueries, function(query, callback) {
     exec(query, function(err, stdout, stderr) {
       directories = _.without(stdout.split("\n"), "")
-      directories.forEach(function(element, index) {
-        results.push(path.normalize(element));
+      directories.forEach(function(directory, index) {
+        results.push(new Result(path.normalize(directory), path.normalize(directory).split("/").pop(), null));
       });
       callback(null, 'done');
     });
   }, function(err) {
-    results = _.uniq(results);
+    results = _.uniq(results, false, function(result) {
+      return result.filename
+    });
+    req.user.directories = results; //TODO(kchang): Trial, set valid directories this user can search 
     if (results.length === 0) {
       err = true;
       results.push("You are not authorized to search any directories. Please contact us.");
@@ -57,7 +60,9 @@ Search.prototype.getMainDirList = function(req, res, cb) {
         error: err
       , directoryList: results
     });
-    cb();
+    if (typeof cb === "function") {
+      cb();
+    }
   });  
 }
 
@@ -77,18 +82,22 @@ Search.prototype.getDirContents = function(req, res, cb) {
     async.forEach(files, function(file, callback) {
       fs.stat(directory+"/"+file, function(err, stats) {
         if (stats.isDirectory()) {
-          contents.push(new Result(directory+"/"+file, null, null));
+          // Push directory result: full path, immediate directory name, no extension
+          contents.push(new Result(directory+"/"+file, file, null));
         } else {
+          // Push file result: full path, filename, extension
           contents.push(new Result(directory, file, file.split(".").pop()));
         }
         callback(null, 'done');
       });
     }, function(err) {
       viewCallback(req, res, {
-          directory: directory  
+          directory: directory.split("/").pop()
         , contents: contents
       });
-      cb();
+      if (typeof cb === "function") {
+        cb();
+      }
     });
   });
 }
@@ -147,7 +156,7 @@ function getConstructedDirQueries(directories) {
   
   directories.forEach(function(directory, index) {
     query = "find "
-      + LOCAL_SEARCH_PATH
+      + SEARCH_PATH
       + " "
       + REGEX_IGNORE_HIDDEN
       + " -maxdepth 1 -type d -iname '*"

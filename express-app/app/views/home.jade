@@ -18,7 +18,7 @@ block content
             if error
               span.directory #{dir}
             else
-              a.directory(href="/searchDirectory?directory=#{dir}") #{dir}
+              a.directory(href="/searchDirectory?directory=#{dir.directory}") /#{dir.filename}
   .directions.row-fluid
     .span1
     .span10

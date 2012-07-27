@@ -1,9 +1,20 @@
 var assert = require("assert")
   , http = require("http")
-  , Search = require("../app/models/search");
+  , SandboxedModule = require('sandboxed-module')
+  , Search = SandboxedModule.require("../app/models/search", {
+      requires: {
+          'fs': {
+            readdir: function(dir, cb) {cb();}
+          }
+        , 'async': {
+            forEach: function(files, iter, cb) {cb();}
+          }
+        }
+    });
 
 describe('Search', function() {
   var testSearch
+    , dirSearch
     , request = http.ServerRequest
     , response = http.ServerResponse
     , resultsArray = [];
@@ -13,14 +24,15 @@ describe('Search', function() {
         "/test/directory"
       , ["test", "search", "terms"]
       , function(req, res, params) {
-          var result = {};
-          //console.log(params.error+'\n'+params.directoryList);
-          result = {error: params.error, directoryList: params.directoryList};
-          //console.log(result);
-          //console.log(resultsArray.length);
-          resultsArray.push(result);
-          //console.log(resultsArray);
-          //return resultsArray;
+          resultsArray.push({error: params.error, directoryList: params.directoryList});
+        }
+    );
+    
+    dirSearch = new Search(
+        "/test/directory"
+      , ["test", "search", "terms"]
+      , function(req, res, params) {
+          resultsArray.push({directory: params.directory, contents: params.contents});
         }
     );
     
@@ -32,6 +44,10 @@ describe('Search', function() {
     };
   });
   
+  beforeEach(function() {
+    resultsArray = [];
+  })
+  
   describe('#Constructor', function() {    
     it('should have a directory', function() {
       assert.equal(testSearch.directory, "/test/directory", "The search.directory property does not match");
@@ -42,17 +58,27 @@ describe('Search', function() {
     });
     
     it('should have a view callback function', function() {
-      assert.equal(typeof testSearch.view, "function", "The search.view callback function is not a function")
+      assert.equal(typeof testSearch.view, "function", "The search.view callback function is not a function");
     });
   });
   
   describe('#getMainDirList()', function() {
-    it('should ', function(done) {
+    it('should call a view with an object containing "error" and "directoryList" as keys', function(done) {
       testSearch.getMainDirList(request, response, function() {
-        //console.log(testSearch.view(request, response, {error:'none', directoryList:'none'}));
-        console.log(resultsArray.length);
+        assert.equal(resultsArray[0].error, true, 'Missing "error" key');
+        assert.equal(resultsArray[0].directoryList, 'You are not authorized to search any directories. Please contact us.', 'Missing directoryList key');
         done();
       });
     });
+  });
+  
+  describe('#getDirContents()', function() {
+    it('should call a view with an object containing "directory" and "contents" as keys', function(done) {
+      dirSearch.getDirContents(request, response, function() {
+        assert.equal(resultsArray[0].directory, '/test/directory', 'Missing directory key');
+        assert.equal(resultsArray[0].contents, '', 'Missing contents key');
+        done();
+      })
+    })
   })
 });

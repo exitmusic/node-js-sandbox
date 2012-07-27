@@ -6,7 +6,8 @@ var url = require('url')
   , Result = require('./../models/result');
 
 function routes(app) {
-  app.get('/searchDirectory', auth.ensureAuthenticated, function(req, res) {
+  //TODO(kchang): Need a solution to prevent searching unauthorized directories by using the query string without POST'ing
+  app.get('/searchDirectory', auth.ensureAuthenticated, auth.ensurePermission, function(req, res) {
     var queryUrl
       , searchDirectory
       , audioSearch;

@@ -12,13 +12,12 @@ function routes(app) {
     });
   });
   
-  app.post(
-      '/login', 
-      passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true
-      })
+  app.post('/login', 
+    passport.authenticate('local', {
+      successRedirect: '/',
+      failureRedirect: '/login',
+      failureFlash: true
+    })
   );
 	
   app.get('/logout', function(req, res) {

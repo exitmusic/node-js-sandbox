@@ -2,12 +2,10 @@
   border-bottom: 5px solid #F89406;//#ff6600;
   background-color: white;
   opacity: 0.95;
-
   &.fixed {
     position: fixed;
     top: 40px;
     z-index: 1;
-
     input {
       margin-top: 5px;
     }
@@ -25,33 +23,34 @@
   }
 }
 .result {
-  padding: 10px 10px;
+  padding: 10px 10px 5px;
   background-color: #ddd;
   border: 1px solid white;
-  //outline: 5px solid #ddd;
   margin: 0 0 5px;
   &.odd {
     background-color: #eee;
-    //outline: 5px solid #eee;
   }
-}
-h4.result-num {
-  float: left;
-}
-.audio-file {
-  width: 50%;
-  float: right;
+  &:hover {
+    background-color: #ccc;
+  }
+  h4 {
+    font-size: 16px;
+    padding: 8px 0 0;
+  }
+  p {
+    padding: 7px 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    i {
+      padding: 0 5px 0 0;
+    }
+  }
+  p.directory {
+    padding-left: 19px;
+  }
 }
 p.no-files-found {
   padding: 180px 0;
   text-align: center;
-}
-p.filename {
-  clear: both;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-span.directory {
-  letter-spacing: 1px;
 }

@@ -7,7 +7,8 @@ var users = [
       , firstName: 'Bob'
       , lastName: 'Bob'
       , email: 'bob@example.com'
-      , directories: ['repos', 'tools', 'e', 'a']
+      , dirKeywords: ['repos', 'tools', 'e', 'a']
+      , directories: []
     }
   , {
         id: 2
@@ -16,7 +17,8 @@ var users = [
       , firstName: 'Joe'
       , lastName: 'Joe'
       , email: 'joe@example.com'
-      , directories: ['tools']
+      , dirKeywords: ['tools']
+      , directories: []
     }
   , {
         id: 3
@@ -25,7 +27,8 @@ var users = [
       , firstName: 'Tom'
       , lastName: 'Tom'
       , email: 'tom@example.com'
-      , directories: []
+      , dirKeywords: []
+      , directories: [] //TODO(kchang): Trial
   }
 ];
 
