@@ -1,0 +1,33 @@
+{ 
+  "id": 1,
+  "username": "bob",
+  "password": "secret",
+  "firstName": "Bob",
+  "lastName": "Bob",
+  "email": "bob@example.com",
+  "searchPath": "SEARCH_PATH",
+  "dirKeywords": ["repos", "tools", "e", "a"],
+  directories: []
+},
+{ 
+  "id": 2,
+  "username": "joe",
+  "password": "birthday",
+  "firstName": "Joe",
+  "lastName": "Joe",
+  "email": "joe@example.com",
+  "searchPath": "SEARCH_PATH",
+  "dirKeywords": ["tools"],
+  "directories": []
+},
+{ 
+  "id": 3,
+  "username": "tom",
+  "password": "cake",
+  "firstName": "Tom",
+  "lastName": "Tom",
+  "email": "tom@example.com",
+  "searchPath": "SEARCH_PATH",
+  "dirKeywords": [],
+  "directories": []
+}

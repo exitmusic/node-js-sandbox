@@ -21,7 +21,8 @@ describe('Search', function() {
   
   before(function() {
     testSearch = new Search(
-        "/test/directory"
+        "/default/search/path"
+      , "/test/directory"
       , ["test", "search", "terms"]
       , function(req, res, params) {
           resultsArray.push({error: params.error, directoryList: params.directoryList});
@@ -29,7 +30,8 @@ describe('Search', function() {
     );
     
     dirSearch = new Search(
-        "/test/directory"
+        "/default/search/path"
+      , "/test/directory"
       , ["test", "search", "terms"]
       , function(req, res, params) {
           resultsArray.push({directory: params.directory, contents: params.contents});
@@ -39,7 +41,7 @@ describe('Search', function() {
     // Mock user object in the http request
     request = {
       user: {
-        directories: ["test", "directories"]
+        dirKeywords: ["test", "directories"]
       }
     };
   });
@@ -48,7 +50,11 @@ describe('Search', function() {
     resultsArray = [];
   })
   
-  describe('#Constructor', function() {    
+  describe('#Constructor', function() {
+    it('should have a default search path', function() {
+      assert.equal(testSearch.searchPath, "/default/search/path", "The search.searchPath property does not match")
+    });
+    
     it('should have a directory', function() {
       assert.equal(testSearch.directory, "/test/directory", "The search.directory property does not match");
     });
@@ -75,7 +81,7 @@ describe('Search', function() {
   describe('#getDirContents()', function() {
     it('should call a view with an object containing "directory" and "contents" as keys', function(done) {
       dirSearch.getDirContents(request, response, function() {
-        assert.equal(resultsArray[0].directory, '/test/directory', 'Missing directory key');
+        assert.equal(resultsArray[0].directory, 'directory', 'Missing directory key');
         assert.equal(resultsArray[0].contents, '', 'Missing contents key');
         done();
       })

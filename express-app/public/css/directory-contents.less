@@ -1,5 +1,8 @@
+button.sort {
+  margin-top: -5px;
+}
 #filter-wrap {
-  border-bottom: 5px solid #F89406;//#ff6600;
+  border-bottom: 5px solid #F89406;
   background-color: white;
   opacity: 0.95;
   &.fixed {
@@ -12,14 +15,25 @@
   }
   input {
     margin: 0 0 5px;
+    display: inline;
   }
 }
 #results {
   margin: 0;
   padding: 5px 0 0;
-  
   &.fixed {
     padding: 45px 0 0;
+  }
+  p.hidden {
+    display: none;
+  }
+}
+@media (max-width: 979px) {
+  #filter-wrap.fixed {
+    position: static;
+  }
+  #results.fixed {
+    padding: 5px 0 0;
   }
 }
 .result {
@@ -38,12 +52,19 @@
     padding: 8px 0 0;
   }
   p {
-    padding: 7px 0 0;
+    padding: 8px 0 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     i {
-      padding: 0 5px 0 0;
+      margin: 0 5px 0 10px;
+    }
+    i.icon-download-alt {
+      margin: 0 10px 0 0;
+    }
+    span {
+      display: inline-block;
+      min-width: 90px;
     }
   }
   p.directory {

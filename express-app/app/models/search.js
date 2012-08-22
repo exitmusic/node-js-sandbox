@@ -4,22 +4,21 @@ var exec = require('child_process').exec
   , _ = require('underscore')
   , async = require('async')
   , auth = require('./authentication')
-  , campaign = require('./campaign')
   , Result = require('./result')
 
-  , LOCAL_SEARCH_PATH = "~"
-  , SEARCH_PATH = "/home"
   , REGEX_IGNORE_HIDDEN = "\\( ! -regex '.*/\\..*' \\)" // Discards hidden files and directories
   , PRINT_FORMAT = "'%p||%f||wav\n'";
 
 /**
- * Gets a list of the root directories the user is allowed to search
+ * Holds the parameters needed to perform a search of the file system
  * @constructor
+ * @param {String} The default/root directory to begin all searches
  * @param {String} directory The directory to perform the search on
  * @param {Array} terms The terms used to perform the search
  * @param {Function} view The view to call to display the results
  */
-function Search(directory, terms, view) {
+function Search(searchPath, directory, terms, view) {
+  this.searchPath = searchPath;
   this.directory = directory;
   this.terms = terms;
   this.view = view;
@@ -37,25 +36,40 @@ Search.prototype.getMainDirList = function(req, res, cb) {
     , directories = []
     , results = []
     , viewCallback = this.view; 
-
-  dirQueries = getConstructedDirQueries(req.user.dirKeywords);
+  
+  // Get an array of find queries used to find the allowed main directories to search
+  dirQueries = getConstructedDirQueries(this.searchPath, req.user.dirKeywords);
+  
+  /**
+   * Run the queries to find actual directory paths this user can search.
+   * Return the directories as an array of Results
+   */ 
   async.forEach(dirQueries, function(query, callback) {
     exec(query, function(err, stdout, stderr) {
       directories = _.without(stdout.split("\n"), "")
       directories.forEach(function(directory, index) {
-        results.push(new Result(path.normalize(directory), path.normalize(directory).split("/").pop(), null));
+        results.push(
+            new Result(path.normalize(directory)
+              , path.normalize(directory).split("/").pop()
+              , null)
+        );
       });
       callback(null, 'done');
     });
   }, function(err) {
+    // Remove duplicates of any directory folder names
     results = _.uniq(results, false, function(result) {
       return result.filename
     });
-    req.user.directories = results; //TODO(kchang): Trial, set valid directories this user can search 
+    
+    // Set valid directories this user can search 
+    req.user.directories = results; 
     if (results.length === 0) {
       err = true;
       results.push("You are not authorized to search any directories. Please contact us.");
     }
+    
+    // Display results in the specified view
     viewCallback(req, res, {
         error: err
       , directoryList: results
@@ -76,23 +90,38 @@ Search.prototype.getMainDirList = function(req, res, cb) {
 Search.prototype.getDirContents = function(req, res, cb) {
   var directory = this.directory
     , viewCallback = this.view
-    , contents = [];
+    , contents = []
+    , fileDetails = {};
 
+  // Read contents of the directory
   fs.readdir(directory, function(err, files) {
+    /**
+     * Loop through each file and determine if it is a file or directory. If it's
+     * a directory, store the full path, immediate folder name, and no extension
+     * 
+     * If it's a file, store the full path, file name, file extension, and file details.
+     */
     async.forEach(files, function(file, callback) {
       fs.stat(directory+"/"+file, function(err, stats) {
         if (stats.isDirectory()) {
           // Push directory result: full path, immediate directory name, no extension
           contents.push(new Result(directory+"/"+file, file, null));
         } else {
-          // Push file result: full path, filename, extension
-          contents.push(new Result(directory, file, file.split(".").pop()));
+          // There could be non-standard file names
+          try {
+            fileDetails = getFileDetails(file);
+          } catch (err) {
+            // Do nothing about it
+          }
+          // Push file result: full path, filename, extension, fileDetails
+          contents.push(new Result(directory, file, file.split(".").pop(), fileDetails));
         }
         callback(null, 'done');
       });
     }, function(err) {
+      // Display results in the specified view
       viewCallback(req, res, {
-          directory: directory.split("/").pop()
+          directory: directory.split("/").pop() // Only the folder name of the directory's contents
         , contents: contents
       });
       if (typeof cb === "function") {
@@ -119,8 +148,7 @@ Search.prototype.getResults = function(req, res, cb) {
     , filesArray
     , elementParsed;
   
-  dirQueries = getConstructedDirQueries(req.user.directories);
-  //TODO(kchang): This is no longer valid
+  dirQueries = getConstructedDirQueries(this.searchPath, req.user.directories);
   //validPaths = getValidPaths(dirQueries);
   queries = getConstructedFileQueries(validPaths, searchTerms);
   
@@ -150,13 +178,13 @@ Search.prototype.getResults = function(req, res, cb) {
  * @param {Array} directories Instance of Node's HTTP server request class
  * @return {Array} An array containing all of the queries
  */
-function getConstructedDirQueries(directories) {
+function getConstructedDirQueries(searchPath, directories) {
   var query
     , dirQueries = [];
   
   directories.forEach(function(directory, index) {
     query = "find "
-      + SEARCH_PATH
+      + searchPath
       + " "
       + REGEX_IGNORE_HIDDEN
       + " -maxdepth 1 -type d -iname '*"
@@ -171,7 +199,6 @@ function getConstructedFileQueries(validPaths, searchTerms) {
   var findQuery
     , constructedQueries = [];
   
-  //TODO(kchang): Nested loop, potential to be very slow
   validPaths.forEach(function(onePath, index) {
     searchTerms.forEach(function(searchTerm, index) {
       findQuery = "find "
@@ -186,6 +213,24 @@ function getConstructedFileQueries(validPaths, searchTerms) {
     });
   });
   return constructedQueries;
+}
+
+function getFileDetails(file) {
+  // Sample filename: 1234567890 by person@email.com @ 2_58_01 PM.wav
+  var fileDetails = {}
+    , phoneSplitEmailTime = file.split(" by ")
+    , phone = phoneSplitEmailTime[0]
+    , emailSplitTime = phoneSplitEmailTime[1].split(" @ ")
+    , email = emailSplitTime[0]
+    , timeSplitExt = emailSplitTime[1].split(".")
+    , time = timeSplitExt[0];
+  
+  fileDetails = {
+      phone: phone
+    , email: email
+    , time: time
+  }
+  return fileDetails;
 }
 
 module.exports = Search;

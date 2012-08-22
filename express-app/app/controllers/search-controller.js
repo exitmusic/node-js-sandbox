@@ -6,17 +6,30 @@ var url = require('url')
   , Result = require('./../models/result');
 
 function routes(app) {
-  //TODO(kchang): Need a solution to prevent searching unauthorized directories by using the query string without POST'ing
+  /**
+   * Route to handle requests to display the contents of directories. Authenticated.
+   * @param /searchDirectory URL to access this route
+   * @param auth.ensureAuthenticated Checks if a user is logged in
+   * @param auth.ensurePermission Checks if the user is allowed to search the requested directory
+   */
   app.get('/searchDirectory', auth.ensureAuthenticated, auth.ensurePermission, function(req, res) {
     var queryUrl
       , searchDirectory
       , audioSearch;
     
+    //Get the query string portion of the URL from the parsed URL object
     queryUrl = url.parse(req.url, true).query;
+    
+    // Get the directory value from the query string
     searchDirectory = queryUrl.directory.trim();
-    audioSearch = new Search(searchDirectory, [], renderDirectoryContents);
+    audioSearch = new Search(req.user.searchPath, searchDirectory, [], renderDirectoryContents);
     audioSearch.getDirContents(req, res);
   });
+  
+  /**
+   * Route to handle requests to search a directory using the given search terms. Authenticated
+   * Currently not being used in iteration one of Audio Search.
+   */
   app.get('/search', auth.ensureAuthenticated, function(req, res) {
     var queryUrl
       , searchTerms = []
@@ -25,7 +38,7 @@ function routes(app) {
     queryUrl = url.parse(req.url, true).query;
     searchTerms = queryUrl.terms.trim().split(" ");
     searchTerms = _.without(searchTerms, "");
-    audioSearch = new Search("", searchTerms, renderSearchResults);
+    audioSearch = new Search(req.user.searchPath, "", searchTerms, renderSearchResults);
     audioSearch.getResults(req, res);
   });
 }

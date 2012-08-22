@@ -1,9 +1,13 @@
+button.sort{margin-top:-5px;}
 #filter-wrap{border-bottom:5px solid #F89406;background-color:white;opacity:0.95;}#filter-wrap.fixed{position:fixed;top:40px;z-index:1;}#filter-wrap.fixed input{margin-top:5px;}
-#filter-wrap input{margin:0 0 5px;}
+#filter-wrap input{margin:0 0 5px;display:inline;}
 #results{margin:0;padding:5px 0 0;}#results.fixed{padding:45px 0 0;}
-.result{padding:10px 10px 5px;background-color:#ddd;border:1px solid white;margin:0 0 5px;}.result.odd{background-color:#eee;}
+#results p.hidden{display:none;}
+@media (max-width:979px){#filter-wrap.fixed{position:static;} #results.fixed{padding:5px 0 0;}}.result{padding:10px 10px 5px;background-color:#ddd;border:1px solid white;margin:0 0 5px;}.result.odd{background-color:#eee;}
 .result:hover{background-color:#ccc;}
 .result h4{font-size:16px;padding:8px 0 0;}
-.result p{padding:7px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.result p i{padding:0 5px 0 0;}
+.result p{padding:8px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.result p i{margin:0 5px 0 10px;}
+.result p i.icon-download-alt{margin:0 10px 0 0;}
+.result p span{display:inline-block;min-width:90px;}
 .result p.directory{padding-left:19px;}
 p.no-files-found{padding:180px 0;text-align:center;}

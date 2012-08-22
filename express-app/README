@@ -1,0 +1,3 @@
+To run test cases, in the project directory:
+
+mocha --reporter spec

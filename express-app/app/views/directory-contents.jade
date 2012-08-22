@@ -6,13 +6,19 @@ block append css
 block content
   .row-fluid
     #results-list.span12
-      h3 Contents of /#{directory}
-      #filter-wrap
+      .row-fluid
+        h3.span8 Contents of /#{directory}
+        button.sort.date.span1.btn.btn-inverse(type="button", class="sort", data-sort="folder") Date
+        button.sort.time.span1.btn.btn-inverse(type="button", class="sort", data-sort="time") Time
+        button.sort.phone.span1.btn.btn-inverse(type="button", class="sort", data-sort="phone") Phone
+        button.sort.email.span1.btn.btn-inverse(type="button", class="sort", data-sort="email") Email
+      #filter-wrap.row-fluid.input-append
         input.search.span12(id="filter", type="text", placeholder="Type to filter results")
       ul#results.list
         if (contents.length === 0)
-          li.result.span12
-            p.no-files-found No files found
+          .row-fluid
+            li.result.span12
+              p.no-files-found No files found
         else
           each file, iter in contents
             .row-fluid
@@ -20,14 +26,21 @@ block content
                 .row-fluid
                   h4.result-num.span1 #{iter + 1}
                   if (file.ext !== null)
-                    p.span6
-                      i.icon-download-alt
-                      a.filename(href="#{file.directory}/#{file.filename}") #{file.filename}
-                    .audio-file.span5
+                    p.span7
+                      //a.filename(href="#{file.directory}/#{file.filename}") #{file.filename}
+                      a.filename(href="#{file.directory}/#{file.filename}")
+                        i.icon-download-alt
+                        i.icon-time
+                        span.time #{file.fileDetails.time}
+                        i.icon-bell
+                        span.phone #{file.fileDetails.phone}
+                        i.icon-envelope
+                        span.email #{file.fileDetails.email}
+                    .audio-file.span4
                       audio.span12(src="#{file.directory}/#{file.filename}", controls)
                         p Your browser doesn't support HTML5 audio
                   else 
-                    p.directory.span6
-                      a.filename(href="/searchDirectory?directory=#{file.directory}") /#{file.filename}
+                    p.directory.span7
+                      a.folder(href="/searchDirectory?directory=#{file.directory}") /#{file.filename}
 block append script
   script(src="/js/search-results.js")
